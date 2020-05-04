@@ -1,0 +1,6 @@
+junk.*
+.idea/
+.gradle/
+build/
+gen/
+out/
