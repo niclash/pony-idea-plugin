@@ -1,0 +1,26 @@
+<idea-plugin>
+    <id>org.hedhman.pony.idea.pony-idea-plugin</id>
+    <name>Pony Language support</name>
+    <vendor email="niclas@hedhman.org" url="https://github.com/niclash">Niclas Hedhman</vendor>
+
+    <description>
+        Pony Language support for IntelliJ IDEA.
+    </description>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType name="Pony" implementationClass="org.hedhman.pony.idea.PonyFileType"
+                  fieldName="PonySource" language="Pony" extensions="pony"/>
+        <lang.parserDefinition language="Pony"
+                               implementationClass="org.hedhman.pony.idea.parsing.PonyParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="Pony"
+                                       implementationClass="org.hedhman.pony.idea.highlighting.PonyHighlighterFactory"/>
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+</idea-plugin>
