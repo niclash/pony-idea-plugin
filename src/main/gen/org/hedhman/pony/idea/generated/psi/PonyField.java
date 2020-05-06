@@ -22,4 +22,6 @@ public interface PonyField extends PsiElement {
   @NotNull
   PonyType_ getType_();
 
+  String getField();
+
 }

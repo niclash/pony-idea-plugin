@@ -57,4 +57,9 @@ public class PonyFieldImpl extends ASTWrapperPsiElement implements PonyField {
     return findNotNullChildByClass(PonyType_.class);
   }
 
+  @Override
+  public String getField() {
+    return PonyPsiImplUtil.getField(this);
+  }
+
 }
