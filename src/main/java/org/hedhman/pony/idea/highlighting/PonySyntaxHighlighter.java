@@ -28,21 +28,26 @@ import org.jetbrains.annotations.NotNull;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
-public class PonyHighlighter extends SyntaxHighlighterBase
+public class PonySyntaxHighlighter extends SyntaxHighlighterBase
 {
     private static final Map<String, TextAttributesKey[]> TYPE_TO_KEYS = new HashMap<>();
-    private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[ 0 ];
-    private static final TextAttributesKey[] KEYWORD = new TextAttributesKey[]{ DefaultLanguageHighlighterColors.KEYWORD };
+    public static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[ 0 ];
+    public static final TextAttributesKey KEYWORD = createTextAttributesKey( "KEYWORD", DefaultLanguageHighlighterColors.KEYWORD );
+    public static final TextAttributesKey IDENTIFIER = createTextAttributesKey( "IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER );
+    public static final TextAttributesKey STRING = createTextAttributesKey( "STRING", DefaultLanguageHighlighterColors.STRING );
+    public static final TextAttributesKey NUMBER = createTextAttributesKey( "NUMBER", DefaultLanguageHighlighterColors.NUMBER );
+    public static final TextAttributesKey LINE_COMMENT = createTextAttributesKey( "LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT );
+    public static final TextAttributesKey BLOCK_COMMENT = createTextAttributesKey( "BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT );
 
     static
     {
-        TextAttributesKey numberAttr = createTextAttributesKey( "NUMBER", DefaultLanguageHighlighterColors.NUMBER );
-        TYPE_TO_KEYS.put( "ID", new TextAttributesKey[]{ createTextAttributesKey( "IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER ) } );
-        TYPE_TO_KEYS.put( "STRING", new TextAttributesKey[]{ createTextAttributesKey( "STRING", DefaultLanguageHighlighterColors.STRING ) } );
-        TYPE_TO_KEYS.put( "INT", new TextAttributesKey[]{ numberAttr } );
-        TYPE_TO_KEYS.put( "FLOAT", new TextAttributesKey[]{ numberAttr } );
-        TYPE_TO_KEYS.put( "LINE_COMMENT", new TextAttributesKey[]{ createTextAttributesKey( "LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT ) } );
-        TYPE_TO_KEYS.put( "BLOCK_COMMENT", new TextAttributesKey[]{ createTextAttributesKey( "BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT ) } );
+        TYPE_TO_KEYS.put( "KEYWORD", new TextAttributesKey[]{KEYWORD} );
+        TYPE_TO_KEYS.put( "ID", new TextAttributesKey[]{IDENTIFIER} );
+        TYPE_TO_KEYS.put( "STRING", new TextAttributesKey[]{STRING} );
+        TYPE_TO_KEYS.put( "INT", new TextAttributesKey[]{ NUMBER } );
+        TYPE_TO_KEYS.put( "FLOAT", new TextAttributesKey[]{ NUMBER } );
+        TYPE_TO_KEYS.put( "LINE_COMMENT", new TextAttributesKey[]{ LINE_COMMENT } );
+        TYPE_TO_KEYS.put( "BLOCK_COMMENT", new TextAttributesKey[]{ BLOCK_COMMENT } );
     }
 
     @NotNull
@@ -60,7 +65,7 @@ public class PonyHighlighter extends SyntaxHighlighterBase
         System.out.println( "Token Type:" + token );
         if( Character.isLowerCase( token.charAt( 0 ) ) )
         {
-            return KEYWORD;
+            return TYPE_TO_KEYS.get( "KEYWORD" );
         }
         TextAttributesKey[] keys = TYPE_TO_KEYS.get( tokenType.toString() );
         if( keys == null )

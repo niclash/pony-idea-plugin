@@ -12,6 +12,6 @@ public class PonyHighlighterFactory extends SyntaxHighlighterFactory
     @Override
     public SyntaxHighlighter getSyntaxHighlighter( Project project, VirtualFile virtualFile )
     {
-        return new PonyHighlighter();
+        return new PonySyntaxHighlighter();
     }
 }

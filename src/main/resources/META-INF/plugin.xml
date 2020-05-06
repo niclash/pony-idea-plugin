@@ -19,6 +19,7 @@
                            implementationClass="org.hedhman.pony.idea.parsing.PonyParserDefinition"/>
     <lang.syntaxHighlighterFactory language="Pony"
                                    implementationClass="org.hedhman.pony.idea.highlighting.PonyHighlighterFactory"/>
+    <colorSettingsPage implementation="org.hedhman.pony.idea.highlighting.PonyColorSettingsPage"/>
   </extensions>
 
   <actions>
