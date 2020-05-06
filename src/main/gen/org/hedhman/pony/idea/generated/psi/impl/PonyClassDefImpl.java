@@ -8,11 +8,11 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static org.hedhman.pony.idea.generated.parsing.PonyTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import org.hedhman.pony.idea.completion.PonyNamedElementImpl;
 import org.hedhman.pony.idea.generated.psi.*;
 import org.hedhman.pony.idea.util.PonyPsiImplUtil;
 
-public class PonyClassDefImpl extends ASTWrapperPsiElement implements PonyClassDef {
+public class PonyClassDefImpl extends PonyNamedElementImpl implements PonyClassDef {
 
   public PonyClassDefImpl(@NotNull ASTNode node) {
     super(node);
@@ -72,6 +72,16 @@ public class PonyClassDefImpl extends ASTWrapperPsiElement implements PonyClassD
   @Override
   public String getClassDef() {
     return PonyPsiImplUtil.getClassDef(this);
+  }
+
+  @Override
+  public PsiElement getNameIdentifier() {
+    return PonyPsiImplUtil.getNameIdentifier(this);
+  }
+
+  @Override
+  public PsiElement setName(String newName) {
+    return PonyPsiImplUtil.setName(this, newName);
   }
 
 }

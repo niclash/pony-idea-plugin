@@ -120,7 +120,12 @@ class_name ::= ID;
 
 class_type ::= (TYPE | INTERFACE | TRAIT | PRIMITIVE | STRUCT | CLASS | ACTOR ) {methods=[getClassType]};
 
-class_def ::= class_type ('\' ID (',' ID)* '\')? '@'? cap? class_name typeparams? (IS type_)? doc_string? members {methods=[getClassDef]};
+class_def ::= class_type ('\' ID (',' ID)* '\')? '@'? cap? class_name typeparams? (IS type_)? doc_string? members
+{
+    mixin="org.hedhman.pony.idea.completion.PonyNamedElementImpl"
+    implements="org.hedhman.pony.idea.completion.PonyNamedElement"
+    methods=[getClassDef getNameIdentifier setName]
+};
 
 members ::= field* method*;
 

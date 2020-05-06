@@ -4,6 +4,7 @@ package org.hedhman.pony.idea.generated.psi;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiElement;
+import org.hedhman.pony.idea.completion.PonyNamedElement;
 
 public class PonyVisitor extends PsiElementVisitor {
 
@@ -48,7 +49,7 @@ public class PonyVisitor extends PsiElementVisitor {
   }
 
   public void visitClassDef(@NotNull PonyClassDef o) {
-    visitPsiElement(o);
+    visitNamedElement(o);
   }
 
   public void visitClassName(@NotNull PonyClassName o) {
@@ -304,6 +305,10 @@ public class PonyVisitor extends PsiElementVisitor {
   }
 
   public void visitWithelem(@NotNull PonyWithelem o) {
+    visitPsiElement(o);
+  }
+
+  public void visitNamedElement(@NotNull PonyNamedElement o) {
     visitPsiElement(o);
   }
 

@@ -20,6 +20,8 @@
     <lang.syntaxHighlighterFactory language="Pony"
                                    implementationClass="org.hedhman.pony.idea.highlighting.PonyHighlighterFactory"/>
     <colorSettingsPage implementation="org.hedhman.pony.idea.highlighting.PonyColorSettingsPage"/>
+    <psi.referenceContributor implementation="org.hedhman.pony.idea.references.PonyReferenceContributor"/>
+    <lang.refactoringSupport language="Pony" implementationClass="org.hedhman.pony.idea.references.PonyRefactoringSupportProvider"/>
   </extensions>
 
   <actions>

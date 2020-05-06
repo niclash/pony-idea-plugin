@@ -1,7 +1,8 @@
 package org.hedhman.pony.idea.util;
 
 import com.intellij.lang.ASTNode;
-import org.hedhman.pony.idea.generated.parsing.PonyTypes;
+import com.intellij.psi.PsiElement;
+import org.hedhman.pony.idea.references.PonyElementFactory;
 import org.hedhman.pony.idea.generated.psi.PonyClassDef;
 import org.hedhman.pony.idea.generated.psi.PonyField;
 import org.hedhman.pony.idea.generated.psi.PonyMethod;
@@ -48,6 +49,7 @@ public class PonyPsiImplUtil
         }
         return null;
     }
+
     public static String getField( PonyField element )
     {
         ASTNode fieldNode = element.getNode();
@@ -66,5 +68,37 @@ public class PonyPsiImplUtil
             return fieldTypeNode.getText();
         }
         return null;
+    }
+
+    public static String getClassName( PonyClassDef element )
+    {
+        ASTNode classNameNode = element.getClassName().getNode();
+        if( classNameNode != null )
+        {
+            return classNameNode.getText();
+        }
+        return null;
+    }
+
+    public static PsiElement setName( PonyClassDef element, String newName )
+    {
+        ASTNode oldClassNameNode = element.getClassName().getNode();
+        PonyClassDef classDef = PonyElementFactory.createClass( element.getProject(), newName );
+        ASTNode newClassNameNode = classDef.getClassName().getNode();
+        element.getNode().replaceChild( oldClassNameNode, newClassNameNode );
+        return element;
+    }
+
+    public static PsiElement getNameIdentifier( PonyClassDef element )
+    {
+        ASTNode keyNode = element.getNode();
+        if( keyNode != null )
+        {
+            return keyNode.getPsi();
+        }
+        else
+        {
+            return null;
+        }
     }
 }
