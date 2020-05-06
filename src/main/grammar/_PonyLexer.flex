@@ -22,6 +22,7 @@ import static org.hedhman.pony.idea.generated.parsing.PonyTypes.*;
 %type IElementType
 %unicode
 
+EOL=\R
 WHITE_SPACE=\s+
 
 NUMBER=[0-9]+

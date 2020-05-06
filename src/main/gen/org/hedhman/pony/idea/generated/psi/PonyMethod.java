@@ -13,6 +13,12 @@ public interface PonyMethod extends PsiElement {
   @Nullable
   PonyDocString getDocString();
 
+  @NotNull
+  PonyMethodName getMethodName();
+
+  @NotNull
+  PonyMethodType getMethodType();
+
   @Nullable
   PonyParams getParams();
 
@@ -27,5 +33,7 @@ public interface PonyMethod extends PsiElement {
 
   @Nullable
   PsiElement getLparenNew();
+
+  String getMethod();
 
 }

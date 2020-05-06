@@ -10,6 +10,12 @@ public interface PonyClassDef extends PsiElement {
   @Nullable
   PonyCap getCap();
 
+  @NotNull
+  PonyClassName getClassName();
+
+  @NotNull
+  PonyClassType getClassType();
+
   @Nullable
   PonyDocString getDocString();
 
@@ -21,5 +27,7 @@ public interface PonyClassDef extends PsiElement {
 
   @Nullable
   PonyTypeparams getTypeparams();
+
+  String getClassDef();
 
 }

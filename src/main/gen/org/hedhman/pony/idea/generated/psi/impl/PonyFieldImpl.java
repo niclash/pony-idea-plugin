@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static org.hedhman.pony.idea.generated.parsing.PonyTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.hedhman.pony.idea.generated.psi.*;
+import org.hedhman.pony.idea.util.PonyPsiImplUtil;
 
 public class PonyFieldImpl extends ASTWrapperPsiElement implements PonyField {
 
@@ -33,6 +34,18 @@ public class PonyFieldImpl extends ASTWrapperPsiElement implements PonyField {
   }
 
   @Override
+  @NotNull
+  public PonyFieldName getFieldName() {
+    return findNotNullChildByClass(PonyFieldName.class);
+  }
+
+  @Override
+  @NotNull
+  public PonyFieldType getFieldType() {
+    return findNotNullChildByClass(PonyFieldType.class);
+  }
+
+  @Override
   @Nullable
   public PonyInfix getInfix() {
     return findChildByClass(PonyInfix.class);
@@ -42,12 +55,6 @@ public class PonyFieldImpl extends ASTWrapperPsiElement implements PonyField {
   @NotNull
   public PonyType_ getType_() {
     return findNotNullChildByClass(PonyType_.class);
-  }
-
-  @Override
-  @NotNull
-  public PsiElement getId() {
-    return findNotNullChildByType(ID);
   }
 
 }

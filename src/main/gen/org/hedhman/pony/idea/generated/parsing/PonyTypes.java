@@ -21,6 +21,8 @@ public interface PonyTypes {
   IElementType CASEEXPR = new PonyElementType("CASEEXPR");
   IElementType CHAIN = new PonyElementType("CHAIN");
   IElementType CLASS_DEF = new PonyElementType("CLASS_DEF");
+  IElementType CLASS_NAME = new PonyElementType("CLASS_NAME");
+  IElementType CLASS_TYPE = new PonyElementType("CLASS_TYPE");
   IElementType DOC_STRING = new PonyElementType("DOC_STRING");
   IElementType DOT = new PonyElementType("DOT");
   IElementType ELSEIFDEF = new PonyElementType("ELSEIFDEF");
@@ -29,6 +31,8 @@ public interface PonyTypes {
   IElementType EXPRSEQ = new PonyElementType("EXPRSEQ");
   IElementType FFI_DECL = new PonyElementType("FFI_DECL");
   IElementType FIELD = new PonyElementType("FIELD");
+  IElementType FIELD_NAME = new PonyElementType("FIELD_NAME");
+  IElementType FIELD_TYPE = new PonyElementType("FIELD_TYPE");
   IElementType GENCAP = new PonyElementType("GENCAP");
   IElementType IDSEQ = new PonyElementType("IDSEQ");
   IElementType IDSEQ_IN_SEQ = new PonyElementType("IDSEQ_IN_SEQ");
@@ -46,6 +50,8 @@ public interface PonyTypes {
   IElementType LITERAL = new PonyElementType("LITERAL");
   IElementType MEMBERS = new PonyElementType("MEMBERS");
   IElementType METHOD = new PonyElementType("METHOD");
+  IElementType METHOD_NAME = new PonyElementType("METHOD_NAME");
+  IElementType METHOD_TYPE = new PonyElementType("METHOD_TYPE");
   IElementType NAMED = new PonyElementType("NAMED");
   IElementType NAMEDARG = new PonyElementType("NAMEDARG");
   IElementType NEXTASSIGNMENT = new PonyElementType("NEXTASSIGNMENT");
@@ -193,6 +199,12 @@ public interface PonyTypes {
       else if (type == CLASS_DEF) {
         return new PonyClassDefImpl(node);
       }
+      else if (type == CLASS_NAME) {
+        return new PonyClassNameImpl(node);
+      }
+      else if (type == CLASS_TYPE) {
+        return new PonyClassTypeImpl(node);
+      }
       else if (type == DOC_STRING) {
         return new PonyDocStringImpl(node);
       }
@@ -216,6 +228,12 @@ public interface PonyTypes {
       }
       else if (type == FIELD) {
         return new PonyFieldImpl(node);
+      }
+      else if (type == FIELD_NAME) {
+        return new PonyFieldNameImpl(node);
+      }
+      else if (type == FIELD_TYPE) {
+        return new PonyFieldTypeImpl(node);
       }
       else if (type == GENCAP) {
         return new PonyGencapImpl(node);
@@ -267,6 +285,12 @@ public interface PonyTypes {
       }
       else if (type == METHOD) {
         return new PonyMethodImpl(node);
+      }
+      else if (type == METHOD_NAME) {
+        return new PonyMethodNameImpl(node);
+      }
+      else if (type == METHOD_TYPE) {
+        return new PonyMethodTypeImpl(node);
       }
       else if (type == NAMED) {
         return new PonyNamedImpl(node);

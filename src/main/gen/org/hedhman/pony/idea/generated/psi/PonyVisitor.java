@@ -51,6 +51,14 @@ public class PonyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitClassName(@NotNull PonyClassName o) {
+    visitPsiElement(o);
+  }
+
+  public void visitClassType(@NotNull PonyClassType o) {
+    visitPsiElement(o);
+  }
+
   public void visitDocString(@NotNull PonyDocString o) {
     visitPsiElement(o);
   }
@@ -80,6 +88,14 @@ public class PonyVisitor extends PsiElementVisitor {
   }
 
   public void visitField(@NotNull PonyField o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFieldName(@NotNull PonyFieldName o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFieldType(@NotNull PonyFieldType o) {
     visitPsiElement(o);
   }
 
@@ -148,6 +164,14 @@ public class PonyVisitor extends PsiElementVisitor {
   }
 
   public void visitMethod(@NotNull PonyMethod o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMethodName(@NotNull PonyMethodName o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMethodType(@NotNull PonyMethodType o) {
     visitPsiElement(o);
   }
 

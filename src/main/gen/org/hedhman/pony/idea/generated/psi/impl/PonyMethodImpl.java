@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static org.hedhman.pony.idea.generated.parsing.PonyTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.hedhman.pony.idea.generated.psi.*;
+import org.hedhman.pony.idea.util.PonyPsiImplUtil;
 
 public class PonyMethodImpl extends ASTWrapperPsiElement implements PonyMethod {
 
@@ -36,6 +37,18 @@ public class PonyMethodImpl extends ASTWrapperPsiElement implements PonyMethod {
   @Nullable
   public PonyDocString getDocString() {
     return findChildByClass(PonyDocString.class);
+  }
+
+  @Override
+  @NotNull
+  public PonyMethodName getMethodName() {
+    return findNotNullChildByClass(PonyMethodName.class);
+  }
+
+  @Override
+  @NotNull
+  public PonyMethodType getMethodType() {
+    return findNotNullChildByClass(PonyMethodType.class);
   }
 
   @Override
@@ -66,6 +79,11 @@ public class PonyMethodImpl extends ASTWrapperPsiElement implements PonyMethod {
   @Nullable
   public PsiElement getLparenNew() {
     return findChildByType(LPAREN_NEW);
+  }
+
+  @Override
+  public String getMethod() {
+    return PonyPsiImplUtil.getMethod(this);
   }
 
 }

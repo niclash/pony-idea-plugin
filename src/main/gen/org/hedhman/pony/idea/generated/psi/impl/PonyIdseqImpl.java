@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static org.hedhman.pony.idea.generated.parsing.PonyTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.hedhman.pony.idea.generated.psi.*;
+import org.hedhman.pony.idea.util.PonyPsiImplUtil;
 
 public class PonyIdseqImpl extends ASTWrapperPsiElement implements PonyIdseq {
 

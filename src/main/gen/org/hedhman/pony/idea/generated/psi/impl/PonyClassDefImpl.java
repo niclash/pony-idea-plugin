@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static org.hedhman.pony.idea.generated.parsing.PonyTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.hedhman.pony.idea.generated.psi.*;
+import org.hedhman.pony.idea.util.PonyPsiImplUtil;
 
 public class PonyClassDefImpl extends ASTWrapperPsiElement implements PonyClassDef {
 
@@ -30,6 +31,18 @@ public class PonyClassDefImpl extends ASTWrapperPsiElement implements PonyClassD
   @Nullable
   public PonyCap getCap() {
     return findChildByClass(PonyCap.class);
+  }
+
+  @Override
+  @NotNull
+  public PonyClassName getClassName() {
+    return findNotNullChildByClass(PonyClassName.class);
+  }
+
+  @Override
+  @NotNull
+  public PonyClassType getClassType() {
+    return findNotNullChildByClass(PonyClassType.class);
   }
 
   @Override
@@ -54,6 +67,11 @@ public class PonyClassDefImpl extends ASTWrapperPsiElement implements PonyClassD
   @Nullable
   public PonyTypeparams getTypeparams() {
     return findChildByClass(PonyTypeparams.class);
+  }
+
+  @Override
+  public String getClassDef() {
+    return PonyPsiImplUtil.getClassDef(this);
   }
 
 }

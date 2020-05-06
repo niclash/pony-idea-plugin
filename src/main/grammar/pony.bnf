@@ -7,6 +7,7 @@
 //  tokenTypeFactory="org.hedhman.pony.idea.parsing.PonyParserDefinition.createTokenType"
   elementTypeHolderClass="org.hedhman.pony.idea.generated.parsing.PonyTypes"
   parserUtilClass="com.intellij.lang.parser.GeneratedParserUtilBase"
+  psiImplUtilClass="org.hedhman.pony.idea.util.PonyPsiImplUtil"
 
   psiClassPrefix="Pony"
   psiImplClassSuffix="Impl"
@@ -112,13 +113,25 @@ use_ ::= ('use' (ID '=')? (STRING | use_ffi) ('if' infix)?);
 
 use_ffi ::= ffi_decl typeargs ('(' | LPAREN_NEW) params? ')' '?'?;
 
-class_def ::= (TYPE | INTERFACE | TRAIT | PRIMITIVE | STRUCT | CLASS | ACTOR ) ('\' ID (',' ID)* '\')? '@'? cap? ID typeparams? (IS type_)? doc_string? members;
+class_name ::= ID;
+
+class_type ::= (TYPE | INTERFACE | TRAIT | PRIMITIVE | STRUCT | CLASS | ACTOR ) {methods=[getClassType]};
+
+class_def ::= class_type ('\' ID (',' ID)* '\')? '@'? cap? class_name typeparams? (IS type_)? doc_string? members {methods=[getClassDef]};
 
 members ::= field* method*;
 
-field ::= (VAR | LET | EMBED) ID ':' type_ ('=' infix)? doc_string?;
+field_type ::= (VAR | LET | EMBED) {methods=[getFieldType]};
 
-method ::= (FUN | BE | NEW) ('\' ID (',' ID)* '\')? (cap | FFI_CHAR)? ID typeparams? ('(' | LPAREN_NEW) params? ')' (':' type_)? '?'? doc_string? ('=>' rawseq)? ;
+field_name ::= ID;
+
+field ::= field_type field_name ':' type_ ('=' infix)? doc_string?;
+
+method_name ::= ID;
+
+method_type ::= (FUN | BE | NEW){methods=[getMethodType]};
+
+method ::= method_type ('\' ID (',' ID)* '\')? (cap | FFI_CHAR)? method_name typeparams? ('(' | LPAREN_NEW) params? ')' (':' type_)? '?'? doc_string? ('=>' rawseq)? {methods=[getMethod]};
 
 annotatedrawseq ::= ('\' ID (',' ID)* '\')? (exprseq | jump);
 
