@@ -1,25 +1,27 @@
 <idea-plugin>
-    <id>org.hedhman.pony.idea.pony-idea-plugin</id>
-    <name>Pony Language support</name>
-    <vendor email="niclas@hedhman.org" url="https://github.com/niclash">Niclas Hedhman</vendor>
-    <version>0.1.0</version>
+  <id>org.hedhman.pony.idea.pony-idea-plugin</id>
+  <version>0.1.4</version>
+  <idea-version since-build="192"/>
+  <name>Pony Language support</name>
+  <description>
+    Pony Language support for IntelliJ platforms. Features; Pony Language syntax highlighting. Work in progress with
+    refactoring, compilation, debugging and intentions in the plans. See https://ponylang.org
+  </description>
+  <vendor email="niclas@hedhman.org" url="https://github.com/niclash">Niclas Hedhman</vendor>
+  <category>Languages</category>
 
-    <description>
-        Pony Language support for IntelliJ IDEA.
-    </description>
+  <depends>com.intellij.modules.platform</depends>
 
-    <depends>com.intellij.modules.platform</depends>
+  <extensions defaultExtensionNs="com.intellij">
+    <fileType name="Pony" implementationClass="org.hedhman.pony.idea.PonyFileType"
+              fieldName="PonySource" language="Pony" extensions="pony"/>
+    <lang.parserDefinition language="Pony"
+                           implementationClass="org.hedhman.pony.idea.parsing.PonyParserDefinition"/>
+    <lang.syntaxHighlighterFactory language="Pony"
+                                   implementationClass="org.hedhman.pony.idea.highlighting.PonyHighlighterFactory"/>
+  </extensions>
 
-    <extensions defaultExtensionNs="com.intellij">
-        <fileType name="Pony" implementationClass="org.hedhman.pony.idea.PonyFileType"
-                  fieldName="PonySource" language="Pony" extensions="pony"/>
-        <lang.parserDefinition language="Pony"
-                               implementationClass="org.hedhman.pony.idea.parsing.PonyParserDefinition"/>
-        <lang.syntaxHighlighterFactory language="Pony"
-                                       implementationClass="org.hedhman.pony.idea.highlighting.PonyHighlighterFactory"/>
-    </extensions>
-
-    <actions>
-        <!-- Add your actions here -->
-    </actions>
+  <actions>
+    <!-- Add your actions here -->
+  </actions>
 </idea-plugin>
