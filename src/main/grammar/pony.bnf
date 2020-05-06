@@ -94,7 +94,8 @@
       // IDENTIFIERS
       SPACE='regexp:\s+'
       WHITE_SPACE='regexp:\s+'
-      COMMENT='regexp:(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|(//.*)'
+      LINE_COMMENT='regexp:(//.*)'
+      BLOCK_COMMENT='regexp:(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)'
       ID="regexp:(_|\p{Alpha})(_|'|\w)*"
 
       // NEWLINE + OPERATOR
@@ -105,19 +106,19 @@
   ]
 }
 
-module ::= doc_string? use* class_def*;
+module ::= doc_string? use_* class_def*;
 
-use ::= ('use' (ID '=')? (STRING | use_ffi) ('if' infix)?);
+use_ ::= ('use' (ID '=')? (STRING | use_ffi) ('if' infix)?);
 
 use_ffi ::= ffi_decl typeargs ('(' | LPAREN_NEW) params? ')' '?'?;
 
-class_def ::= (TYPE | INTERFACE | TRAIT | PRIMITIVE | STRUCT | CLASS | ACTOR ) ('\' ID (',' ID)* '\')? '@'? cap? ID typeparams? (IS type)? doc_string? members;
+class_def ::= (TYPE | INTERFACE | TRAIT | PRIMITIVE | STRUCT | CLASS | ACTOR ) ('\' ID (',' ID)* '\')? '@'? cap? ID typeparams? (IS type_)? doc_string? members;
 
 members ::= field* method*;
 
-field ::= (VAR | LET | EMBED) ID ':' type ('=' infix)? doc_string?;
+field ::= (VAR | LET | EMBED) ID ':' type_ ('=' infix)? doc_string?;
 
-method ::= (FUN | BE | NEW) ('\' ID (',' ID)* '\')? (cap | FFI_CHAR)? ID typeparams? ('(' | LPAREN_NEW) params? ')' (':' type)? '?'? doc_string? ('=>' rawseq)? ;
+method ::= (FUN | BE | NEW) ('\' ID (',' ID)* '\')? (cap | FFI_CHAR)? ID typeparams? ('(' | LPAREN_NEW) params? ')' (':' type_)? '?'? doc_string? ('=>' rawseq)? ;
 
 annotatedrawseq ::= ('\' ID (',' ID)* '\')? (exprseq | jump);
 
@@ -148,11 +149,11 @@ assignment
   ;
 
 nextinfix
-  ::= nextterm (binop | isop | (AS type))*
+  ::= nextterm (binop | isop | (AS type_))*
   ;
 
 infix
-  ::= term (binop | isop | (AS type))*
+  ::= term (binop | isop | (AS type_))*
   ;
 
 isop
@@ -164,9 +165,9 @@ binop
   ;
 
 nextterm ::=
-  IF ('\' ID (',' ID)* '\')? rawseq THEN rawseq (elseif | (ELSE annotatedrawseq))? END
+  IF ('\' ID (',' ID)* '\')? rawseq THEN rawseq (elseif_ | (ELSE annotatedrawseq))? END
   | IFDEF ('\' ID (',' ID)* '\')? infix THEN rawseq (elseifdef | (ELSE annotatedrawseq))? END
-  | IFTYPE ('\' ID (',' ID)* '\')? iftype (elseiftype | (ELSE annotatedrawseq))? END
+  | IFTYPE ('\' ID (',' ID)* '\')? iftype_ (elseiftype | (ELSE annotatedrawseq))? END
   | MATCH ('\' ID (',' ID)* '\')? rawseq caseexpr* (ELSE annotatedrawseq)? END
   | WHILE ('\' ID (',' ID)* '\')? rawseq DO rawseq (ELSE annotatedrawseq)? END
   | REPEAT ('\' ID (',' ID)* '\')? rawseq UNTIL annotatedrawseq (ELSE annotatedrawseq)? END
@@ -180,9 +181,9 @@ nextterm ::=
   ;
 
 term ::=
-  IF ('\' ID (',' ID)* '\')? rawseq THEN rawseq (elseif | (ELSE annotatedrawseq))? END
+  IF ('\' ID (',' ID)* '\')? rawseq THEN rawseq (elseif_ | (ELSE annotatedrawseq))? END
   | IFDEF ('\' ID (',' ID)* '\')? infix THEN rawseq (elseifdef | (ELSE annotatedrawseq))? END
-  | IFTYPE ('\' ID (',' ID)* '\')? iftype (elseiftype | (ELSE annotatedrawseq))? END
+  | IFTYPE ('\' ID (',' ID)* '\')? iftype_ (elseiftype | (ELSE annotatedrawseq))? END
   | MATCH ('\' ID (',' ID)* '\')? rawseq caseexpr* (ELSE annotatedrawseq)? END
   | WHILE ('\' ID (',' ID)* '\')? rawseq DO rawseq (ELSE annotatedrawseq)? END
   | REPEAT ('\' ID (',' ID)* '\')? rawseq UNTIL annotatedrawseq (ELSE annotatedrawseq)? END
@@ -204,19 +205,19 @@ caseexpr
   ;
 
 elseiftype
-  ::= ELSEIF ('\' ID (',' ID)* '\')? iftype (elseiftype | (ELSE annotatedrawseq))?
+  ::= ELSEIF ('\' ID (',' ID)* '\')? iftype_ (elseiftype | (ELSE annotatedrawseq))?
   ;
 
-iftype
-  ::= type '<::=' type THEN rawseq
+iftype_
+  ::= type_ '<::=' type_ THEN rawseq
   ;
 
 elseifdef
   ::= ELSEIF ('\' ID (',' ID)* '\')? infix THEN rawseq (elseifdef | (ELSE annotatedrawseq))?
   ;
 
-elseif
-  ::= ELSEIF ('\' ID (',' ID)* '\')? rawseq THEN rawseq (elseif | (ELSE annotatedrawseq))?
+elseif_
+  ::= ELSEIF ('\' ID (',' ID)* '\')? rawseq THEN rawseq (elseif_ | (ELSE annotatedrawseq))?
   ;
 
 idseq
@@ -230,12 +231,12 @@ idseq_in_seq
   ;
 
 nextpattern
-  ::= (VAR | LET | EMBED) ID (':' type)?
+  ::= (VAR | LET | EMBED) ID (':' type_)?
   | nextparampattern
   ;
 
 pattern
-  ::= (VAR | LET | EMBED) ID (':' type)?
+  ::= (VAR | LET | EMBED) ID (':' type_)?
   | parampattern
   ;
 
@@ -278,10 +279,10 @@ nextatom
   | THIS
   | literal
   | LPAREN_NEW rawseq tuple? ')'
-  | LSQUARE_NEW ('as' type ':')? rawseq? ']'
-  | 'object' ('\' ID (',' ID)* '\')? cap? ('is' type)? members 'end'
-  | '{' ('\' ID (',' ID)* '\')? cap? ID? typeparams? ('(' | LPAREN_NEW) lambdaparams? ')' lambdacaptures? (':' type)? '?'? '=>' rawseq '}' cap?
-  | '@{' ('\' ID (',' ID)* '\')? cap? ID? typeparams? ('(' | LPAREN_NEW) lambdaparams? ')' lambdacaptures? (':' type)? '?'? '=>' rawseq '}' cap?
+  | LSQUARE_NEW ('as' type_ ':')? rawseq? ']'
+  | 'object' ('\' ID (',' ID)* '\')? cap? ('is' type_)? members 'end'
+  | '{' ('\' ID (',' ID)* '\')? cap? ID? typeparams? ('(' | LPAREN_NEW) lambdaparams? ')' lambdacaptures? (':' type_)? '?'? '=>' rawseq '}' cap?
+  | '@{' ('\' ID (',' ID)* '\')? cap? ID? typeparams? ('(' | LPAREN_NEW) lambdaparams? ')' lambdacaptures? (':' type_)? '?'? '=>' rawseq '}' cap?
   | ffi_decl typeargs? ('(' | LPAREN_NEW) positional? named? ')' '?'?
   | LOC
   ;
@@ -291,10 +292,10 @@ atom
   | THIS
   | literal
   | ('(' | LPAREN_NEW) rawseq tuple? ')'
-  | ('[' | LSQUARE_NEW) ('as' type ':')? rawseq? ']'
-  | 'object' ('\' ID (',' ID)* '\')? cap? ('is' type)? members 'end'
-  | '{' ('\' ID (',' ID)* '\')? cap? ID? typeparams? ('(' | LPAREN_NEW) lambdaparams? ')' lambdacaptures? (':' type)? '?'? '=>' rawseq '}' cap?
-  | '@{' ('\' ID (',' ID)* '\')? cap? ID? typeparams? ('(' | LPAREN_NEW) lambdaparams? ')' lambdacaptures? (':' type)? '?'? '=>' rawseq '}' cap?
+  | ('[' | LSQUARE_NEW) ('as' type_ ':')? rawseq? ']'
+  | 'object' ('\' ID (',' ID)* '\')? cap? ('is' type_)? members 'end'
+  | '{' ('\' ID (',' ID)* '\')? cap? ID? typeparams? ('(' | LPAREN_NEW) lambdaparams? ')' lambdacaptures? (':' type_)? '?'? '=>' rawseq '}' cap?
+  | '@{' ('\' ID (',' ID)* '\')? cap? ID? typeparams? ('(' | LPAREN_NEW) lambdaparams? ')' lambdacaptures? (':' type_)? '?'? '=>' rawseq '}' cap?
   | ffi_decl typeargs? ('(' | LPAREN_NEW) positional? named? ')' '?'?
   | LOC
   ;
@@ -308,7 +309,7 @@ lambdacaptures
   ;
 
 lambdacapture
-  ::= ID (':' type)? ('=' infix)?
+  ::= ID (':' type_)? ('=' infix)?
   ;
 
 lambdaparams
@@ -316,7 +317,7 @@ lambdaparams
   ;
 
 lambdaparam
-  ::= ID (':' type)? ('=' infix)?
+  ::= ID (':' type_)? ('=' infix)?
   ;
 
 positional
@@ -331,8 +332,8 @@ namedarg
   ::= ID '=' rawseq
   ;
 
-type
-  ::= atomtype ('->' type)?
+type_
+  ::= atomtype ('->' type_)?
   ;
 
 atomtype
@@ -345,11 +346,11 @@ atomtype
   ;
 
 barelambdatype
-  ::= '@{' cap? ID? typeparams? ('(' | LPAREN_NEW) (type (',' type)*)? ')' (':' type)? '?'? '}' (cap | gencap)? ('^' | '!')?
+  ::= '@{' cap? ID? typeparams? ('(' | LPAREN_NEW) (type_ (',' type_)*)? ')' (':' type_)? '?'? '}' (cap | gencap)? ('^' | '!')?
   ;
 
 lambdatype
-  ::= '{' cap? ID? typeparams? ('(' | LPAREN_NEW) (type (',' type)*)? ')' (':' type)? '?'? '}' (cap | gencap)? ('^' | '!')?
+  ::= '{' cap? ID? typeparams? ('(' | LPAREN_NEW) (type_ (',' type_)*)? ')' (':' type_)? '?'? '}' (cap | gencap)? ('^' | '!')?
   ;
 
 tupletype
@@ -357,15 +358,15 @@ tupletype
   ;
 
 infixtype
-  ::= type (uniontype | isecttype)*
+  ::= type_ (uniontype | isecttype)*
   ;
 
 isecttype
-  ::= '&' type
+  ::= '&' type_
   ;
 
 uniontype
-  ::= '|' type
+  ::= '|' type_
   ;
 
 nominal
@@ -402,11 +403,11 @@ params
   ;
 
 typeparam
-  ::= ID (':' type)? ('=' typearg)?
+  ::= ID (':' type_)? ('=' typearg)?
   ;
 
 typearg
-  ::= type
+  ::= type_
   | literal
   | HASH postfix
   ;
@@ -419,7 +420,7 @@ literal
   | STRING
   ;
 
-param ::= ID ':' type ('=' infix)?;
+param ::= ID ':' type_ ('=' infix)?;
 
 ffi_decl ::= '@' (ID | STRING);
 

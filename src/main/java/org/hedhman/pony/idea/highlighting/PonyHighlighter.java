@@ -32,23 +32,17 @@ public class PonyHighlighter extends SyntaxHighlighterBase
 {
     private static final Map<String, TextAttributesKey[]> TYPE_TO_KEYS = new HashMap<>();
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[ 0 ];
+    private static final TextAttributesKey[] KEYWORD = new TextAttributesKey[]{ DefaultLanguageHighlighterColors.KEYWORD };
 
     static
     {
-        TYPE_TO_KEYS.put( "CLASS_DEF", new TextAttributesKey[]{ createTextAttributesKey( "CLASS_DEF", DefaultLanguageHighlighterColors.CLASS_NAME ) } );
+        TextAttributesKey numberAttr = createTextAttributesKey( "NUMBER", DefaultLanguageHighlighterColors.NUMBER );
         TYPE_TO_KEYS.put( "ID", new TextAttributesKey[]{ createTextAttributesKey( "IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER ) } );
         TYPE_TO_KEYS.put( "STRING", new TextAttributesKey[]{ createTextAttributesKey( "STRING", DefaultLanguageHighlighterColors.STRING ) } );
-        TYPE_TO_KEYS.put( "INT", new TextAttributesKey[]{ createTextAttributesKey( "NUMBER", DefaultLanguageHighlighterColors.NUMBER ) } );
-        TYPE_TO_KEYS.put( "FLOAT", new TextAttributesKey[]{ createTextAttributesKey( "NUMBER", DefaultLanguageHighlighterColors.NUMBER ) } );
-        TYPE_TO_KEYS.put( "USE", new TextAttributesKey[]{ createTextAttributesKey( "USE", DefaultLanguageHighlighterColors.KEYWORD ) } );
-        TYPE_TO_KEYS.put( "USE_FFI", new TextAttributesKey[]{ createTextAttributesKey( "USE_FFI", DefaultLanguageHighlighterColors.CONSTANT ) } );
-        TYPE_TO_KEYS.put( "FIELD", new TextAttributesKey[]{ createTextAttributesKey( "FIELD", DefaultLanguageHighlighterColors.INSTANCE_FIELD ) } );
-        TYPE_TO_KEYS.put( "METHOD", new TextAttributesKey[]{ createTextAttributesKey( "METHOD", DefaultLanguageHighlighterColors.INSTANCE_METHOD ) } );
-        TYPE_TO_KEYS.put( "JUMP", new TextAttributesKey[]{ createTextAttributesKey( "JUMP", DefaultLanguageHighlighterColors.KEYWORD ) } );
-        TYPE_TO_KEYS.put( "BINOP", new TextAttributesKey[]{ createTextAttributesKey( "BIN_OP", DefaultLanguageHighlighterColors.OPERATION_SIGN ) } );
-        TYPE_TO_KEYS.put( "ISOP", new TextAttributesKey[]{ createTextAttributesKey( "IS_OP", DefaultLanguageHighlighterColors.OPERATION_SIGN ) } );
-        TYPE_TO_KEYS.put( "TERM", new TextAttributesKey[]{ createTextAttributesKey( "TERM", DefaultLanguageHighlighterColors.KEYWORD ) } );
-        TYPE_TO_KEYS.put( "NEXTTERM", new TextAttributesKey[]{ createTextAttributesKey( "NEXT_TERM", DefaultLanguageHighlighterColors.KEYWORD ) } );
+        TYPE_TO_KEYS.put( "INT", new TextAttributesKey[]{ numberAttr } );
+        TYPE_TO_KEYS.put( "FLOAT", new TextAttributesKey[]{ numberAttr } );
+        TYPE_TO_KEYS.put( "LINE_COMMENT", new TextAttributesKey[]{ createTextAttributesKey( "LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT ) } );
+        TYPE_TO_KEYS.put( "BLOCK_COMMENT", new TextAttributesKey[]{ createTextAttributesKey( "BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT ) } );
     }
 
     @NotNull
@@ -58,17 +52,21 @@ public class PonyHighlighter extends SyntaxHighlighterBase
         return new PonyLexer();
     }
 
-
     @NotNull
     @Override
     public TextAttributesKey[] getTokenHighlights( IElementType tokenType )
     {
-        System.out.println("Token Type:" + tokenType);
-        TextAttributesKey[] keys = TYPE_TO_KEYS.get( tokenType.toString() );
-        if( keys != null )
+        String token = tokenType.toString();
+        System.out.println( "Token Type:" + token );
+        if( Character.isLowerCase( token.charAt( 0 ) ) )
         {
-            return keys;
+            return KEYWORD;
         }
-        return EMPTY_KEYS;
+        TextAttributesKey[] keys = TYPE_TO_KEYS.get( tokenType.toString() );
+        if( keys == null )
+        {
+            return EMPTY_KEYS;
+        }
+        return keys;
     }
 }

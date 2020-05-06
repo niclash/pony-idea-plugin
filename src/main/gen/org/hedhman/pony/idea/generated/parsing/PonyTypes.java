@@ -23,16 +23,16 @@ public interface PonyTypes {
   IElementType CLASS_DEF = new PonyElementType("CLASS_DEF");
   IElementType DOC_STRING = new PonyElementType("DOC_STRING");
   IElementType DOT = new PonyElementType("DOT");
-  IElementType ELSEIF = new PonyElementType("ELSEIF");
   IElementType ELSEIFDEF = new PonyElementType("ELSEIFDEF");
   IElementType ELSEIFTYPE = new PonyElementType("ELSEIFTYPE");
+  IElementType ELSEIF_ = new PonyElementType("ELSEIF_");
   IElementType EXPRSEQ = new PonyElementType("EXPRSEQ");
   IElementType FFI_DECL = new PonyElementType("FFI_DECL");
   IElementType FIELD = new PonyElementType("FIELD");
   IElementType GENCAP = new PonyElementType("GENCAP");
   IElementType IDSEQ = new PonyElementType("IDSEQ");
   IElementType IDSEQ_IN_SEQ = new PonyElementType("IDSEQ_IN_SEQ");
-  IElementType IFTYPE = new PonyElementType("IFTYPE");
+  IElementType IFTYPE_ = new PonyElementType("IFTYPE_");
   IElementType INFIX = new PonyElementType("INFIX");
   IElementType INFIXTYPE = new PonyElementType("INFIXTYPE");
   IElementType ISECTTYPE = new PonyElementType("ISECTTYPE");
@@ -70,25 +70,92 @@ public interface PonyTypes {
   IElementType TILDE = new PonyElementType("TILDE");
   IElementType TUPLE = new PonyElementType("TUPLE");
   IElementType TUPLETYPE = new PonyElementType("TUPLETYPE");
-  IElementType TYPE = new PonyElementType("TYPE");
   IElementType TYPEARG = new PonyElementType("TYPEARG");
   IElementType TYPEARGS = new PonyElementType("TYPEARGS");
   IElementType TYPEPARAM = new PonyElementType("TYPEPARAM");
   IElementType TYPEPARAMS = new PonyElementType("TYPEPARAMS");
+  IElementType TYPE_ = new PonyElementType("TYPE_");
   IElementType UNIONTYPE = new PonyElementType("UNIONTYPE");
-  IElementType USE = new PonyElementType("USE");
+  IElementType USE_ = new PonyElementType("USE_");
   IElementType USE_FFI = new PonyElementType("USE_FFI");
   IElementType WITHELEM = new PonyElementType("WITHELEM");
 
-  IElementType COMMENT = new PonyTokenType("COMMENT");
+  IElementType ACTOR = new PonyTokenType("actor");
+  IElementType ADDRESSOF = new PonyTokenType("addressof");
+  IElementType AND = new PonyTokenType("and");
+  IElementType AS = new PonyTokenType("as");
+  IElementType BE = new PonyTokenType("be");
+  IElementType BLOCK_COMMENT = new PonyTokenType("BLOCK_COMMENT");
+  IElementType BOX = new PonyTokenType("box");
+  IElementType BREAK = new PonyTokenType("break");
+  IElementType CLASS = new PonyTokenType("class");
+  IElementType COMPILE_ERROR = new PonyTokenType("compile_error");
+  IElementType COMPILE_INTRINSIC = new PonyTokenType("compile_intrinsic");
+  IElementType CONSUME = new PonyTokenType("consume");
+  IElementType CONTINUE = new PonyTokenType("continue");
+  IElementType DIGESTOF = new PonyTokenType("digestof");
+  IElementType DO = new PonyTokenType("do");
+  IElementType ELSE = new PonyTokenType("else");
+  IElementType ELSEIF = new PonyTokenType("elseif");
+  IElementType EMBED = new PonyTokenType("embed");
+  IElementType END = new PonyTokenType("end");
+  IElementType ERROR = new PonyTokenType("error");
+  IElementType FALSE = new PonyTokenType("false");
+  IElementType FFI_CHAR = new PonyTokenType("@");
   IElementType FLOAT = new PonyTokenType("FLOAT");
+  IElementType FOR = new PonyTokenType("for");
+  IElementType FUN = new PonyTokenType("fun");
+  IElementType HASH = new PonyTokenType("#");
+  IElementType HASH_ALIAS = new PonyTokenType("#alias");
+  IElementType HASH_ANY = new PonyTokenType("#any");
+  IElementType HASH_READ = new PonyTokenType("#read");
+  IElementType HASH_SEND = new PonyTokenType("#send");
+  IElementType HASH_SHARE = new PonyTokenType("#share");
   IElementType ID = new PonyTokenType("ID");
+  IElementType IF = new PonyTokenType("if");
+  IElementType IFDEF = new PonyTokenType("ifdef");
+  IElementType IFTYPE = new PonyTokenType("iftype");
+  IElementType IN = new PonyTokenType("in");
+  IElementType INTERFACE = new PonyTokenType("interface");
+  IElementType IS = new PonyTokenType("is");
+  IElementType ISNT = new PonyTokenType("isnt");
+  IElementType ISO = new PonyTokenType("iso");
+  IElementType LET = new PonyTokenType("let");
+  IElementType LINE_COMMENT = new PonyTokenType("LINE_COMMENT");
+  IElementType LOC = new PonyTokenType("__loc");
   IElementType LPAREN_NEW = new PonyTokenType("LPAREN_NEW");
   IElementType LSQUARE_NEW = new PonyTokenType("LSQUARE_NEW");
+  IElementType MATCH = new PonyTokenType("match");
   IElementType MINUS_NEW = new PonyTokenType("MINUS_NEW");
   IElementType MINUS_TILDE_NEW = new PonyTokenType("MINUS_TILDE_NEW");
+  IElementType NEW = new PonyTokenType("new");
+  IElementType NOT = new PonyTokenType("not");
   IElementType NUMBER = new PonyTokenType("NUMBER");
+  IElementType OBJECT = new PonyTokenType("object");
+  IElementType OR = new PonyTokenType("or");
+  IElementType PRIMITIVE = new PonyTokenType("primitive");
+  IElementType RECOVER = new PonyTokenType("recover");
+  IElementType REF = new PonyTokenType("ref");
+  IElementType REPEAT = new PonyTokenType("repeat");
+  IElementType RETURN = new PonyTokenType("return");
   IElementType STRING = new PonyTokenType("STRING");
+  IElementType STRUCT = new PonyTokenType("struct");
+  IElementType TAG = new PonyTokenType("tag");
+  IElementType THEN = new PonyTokenType("then");
+  IElementType THIS = new PonyTokenType("this");
+  IElementType TRAIT = new PonyTokenType("trait");
+  IElementType TRN = new PonyTokenType("trn");
+  IElementType TRUE = new PonyTokenType("true");
+  IElementType TRY = new PonyTokenType("try");
+  IElementType TYPE = new PonyTokenType("type");
+  IElementType UNTIL = new PonyTokenType("until");
+  IElementType USE = new PonyTokenType("use");
+  IElementType VAL = new PonyTokenType("val");
+  IElementType VAR = new PonyTokenType("var");
+  IElementType WHERE = new PonyTokenType("where");
+  IElementType WHILE = new PonyTokenType("while");
+  IElementType WITH = new PonyTokenType("with");
+  IElementType XOR = new PonyTokenType("xor");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
@@ -132,14 +199,14 @@ public interface PonyTypes {
       else if (type == DOT) {
         return new PonyDotImpl(node);
       }
-      else if (type == ELSEIF) {
-        return new PonyElseifImpl(node);
-      }
       else if (type == ELSEIFDEF) {
         return new PonyElseifdefImpl(node);
       }
       else if (type == ELSEIFTYPE) {
         return new PonyElseiftypeImpl(node);
+      }
+      else if (type == ELSEIF_) {
+        return new PonyElseif_Impl(node);
       }
       else if (type == EXPRSEQ) {
         return new PonyExprseqImpl(node);
@@ -159,8 +226,8 @@ public interface PonyTypes {
       else if (type == IDSEQ_IN_SEQ) {
         return new PonyIdseqInSeqImpl(node);
       }
-      else if (type == IFTYPE) {
-        return new PonyIftypeImpl(node);
+      else if (type == IFTYPE_) {
+        return new PonyIftype_Impl(node);
       }
       else if (type == INFIX) {
         return new PonyInfixImpl(node);
@@ -273,9 +340,6 @@ public interface PonyTypes {
       else if (type == TUPLETYPE) {
         return new PonyTupletypeImpl(node);
       }
-      else if (type == TYPE) {
-        return new PonyTypeImpl(node);
-      }
       else if (type == TYPEARG) {
         return new PonyTypeargImpl(node);
       }
@@ -288,11 +352,14 @@ public interface PonyTypes {
       else if (type == TYPEPARAMS) {
         return new PonyTypeparamsImpl(node);
       }
+      else if (type == TYPE_) {
+        return new PonyType_Impl(node);
+      }
       else if (type == UNIONTYPE) {
         return new PonyUniontypeImpl(node);
       }
-      else if (type == USE) {
-        return new PonyUseImpl(node);
+      else if (type == USE_) {
+        return new PonyUse_Impl(node);
       }
       else if (type == USE_FFI) {
         return new PonyUseFfiImpl(node);
