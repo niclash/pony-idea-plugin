@@ -1,0 +1,35 @@
+<idea-plugin>
+  <id>org.hedhman.pony.idea.pony-idea-plugin</id>
+  <version>0.2.0</version>
+  <idea-version since-build="193"/>
+  <name>Pony Language support</name>
+  <description>
+    Pony Language support for IntelliJ platforms. Features; Pony Language syntax highlighting. Work in progress with
+    refactoring, compilation, debugging and intentions in the plans. See https://ponylang.org
+  </description>
+  <vendor email="niclas@hedhman.org" url="https://github.com/niclash">Niclas Hedhman</vendor>
+  <category>Languages</category>
+
+  <depends>com.intellij.modules.platform</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <fileType name="Pony" implementationClass="org.hedhman.pony.idea.PonyFileType"
+              fieldName="PonySource" language="Pony" extensions="pony"/>
+    <lang.parserDefinition language="Pony"
+                           implementationClass="org.hedhman.pony.idea.parsing.PonyParserDefinition"/>
+    <lang.syntaxHighlighterFactory language="Pony"
+                                   implementationClass="org.hedhman.pony.idea.highlighting.PonyHighlighterFactory"/>
+    <colorSettingsPage implementation="org.hedhman.pony.idea.highlighting.PonyColorSettingsPage"/>
+    <psi.referenceContributor language="Pony"
+                              implementation="org.hedhman.pony.idea.references.PonyReferenceContributor"/>
+    <lang.refactoringSupport language="Pony"
+                             implementationClass="org.hedhman.pony.idea.refactoring.PonyRefactoringSupportProvider"/>
+    <completion.contributor language="Pony"
+                            implementationClass="org.hedhman.pony.idea.completion.PonyCompletionContributor"/>
+    <lang.formatter language="Pony" implementationClass="org.hedhman.pony.idea.formatter.PonyFormattingModelBuilder"/>
+  </extensions>
+
+  <actions>
+    <!-- Add your actions here -->
+  </actions>
+</idea-plugin>

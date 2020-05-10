@@ -1,0 +1,508 @@
+
+// NOTE: After "Generate JFlex Lexer" one of the WHITE_SPACE declarations and usages must be removed by hand. As well as the EOL declaration.
+{
+  generate=[psi="yes"]
+  classHeader="/* Copyright Niclas Hedhman, 2020. All rights reserved. Licensed under the Apache License, Version 2.0 (the \"License\"). See LICENSE.txt*/"
+  parserClass="org.hedhman.pony.idea.generated.parsing.PonyParser"
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+  elementTypeHolderClass="org.hedhman.pony.idea.generated.parsing.PonyTypes"
+  parserUtilClass="com.intellij.lang.parser.GeneratedParserUtilBase"
+  psiImplUtilClass="org.hedhman.pony.idea.util.PonyPsiImplUtil"
+
+  psiClassPrefix="Pony"
+  psiImplClassSuffix="Impl"
+  psiPackage="org.hedhman.pony.idea.generated.psi"
+  psiImplPackage="org.hedhman.pony.idea.generated.psi.impl"
+
+  elementTypeClass="org.hedhman.pony.idea.psi.PonyElementType"
+  tokenTypeClass="org.hedhman.pony.idea.psi.PonyTokenType"
+
+  tokens=[
+      // NEWLINE + OPERATOR
+      LPAREN_NEW="regexp:[\r\n]\s*\("
+      LSQUARE_NEW="regexp:[\r\n]\s*\["
+      MINUS_NEW="regexp:[\r\n]\s*-"
+      MINUS_TILDE_NEW="regexp:[\r\n]\s*-\~"
+      MINUS_TILDE='regexp:[-][~]'
+
+      // KEYWORDS
+      THROWS='?'
+      THIS='this'
+      FUN='fun'
+      BE='be'
+      NEW='new'
+      USE='use'
+      RETURN='return'
+      BREAK='break'
+      CONTINUE='continue'
+      TYPE='type'
+      CLASS='class'
+      INTERFACE='interface'
+      TRAIT='trait'
+      OBJECT='object'
+      ERROR='error'
+      COMPILE_INTRINSIC='compile_intrinsic'
+      PRIMITIVE='primitive'
+      ACTOR='actor'
+      STRUCT='struct'
+      IS='is'
+      ISNT='isnt'
+      ARROW='=>'
+      VAR='var'
+      LET='let'
+      EMBED='embed'
+      WHERE='where'
+      FFI_CHAR='@'
+      COMPILE_ERROR='compile_error'
+      AS='as'
+      AND='and'
+      OR='or'
+      XOR='xor'
+      NOT='not'
+      ADDRESSOF='addressof'
+      DIGESTOF='digestof'
+      IF='if'
+      IFDEF='ifdef'
+      IFTYPE='iftype'
+      MATCH='match'
+      WHILE='while'
+      REPEAT='repeat'
+      FOR='for'
+      WITH='with'
+      DO='do'
+      UNTIL='until'
+      IN='in'
+      END='end'
+      IF='if'
+      ELSE='else'
+      ELSEIF='elseif'
+      THEN='then'
+      TRY='try'
+      RECOVER='recover'
+      CONSUME='consume'
+      HASH='#'
+      HASH_READ='#read'
+      HASH_SEND='#send'
+      HASH_SHARE='#share'
+      HASH_ALIAS='#alias'
+      HASH_ANY='#any'
+      ISO='iso'
+      TRN='trn'
+      REF='ref'
+      VAL='val'
+      BOX='box'
+      TAG='tag'
+      LOC='__loc'
+
+      //
+      LPAREN='('
+      RPAREN=')'
+      LSQUARE='regexp:[\[]'
+      RSQUARE='regexp:[\]]'
+      LBRACE='{'
+      ATLBRACE='@{'
+      RBRACE='}'
+      BACKSLASH='regexp:[\\]'
+      COMMA='regexp:[,]'
+      ASSIGN='regexp:[=]'
+      TYPE_OP='regexp:[:]'
+      LIST_OP=';'
+      TYPE_EQ='<::='
+      CHAIN_OP='regexp:[.]>'
+      PLUS_OP='+'
+      MINUS_OP='-'
+      MULT_OP='*'
+      DIV_OP='/'
+      REMAINDER='%'
+      MODULO='%%'
+      PLUS_UNSAFE='+~'
+//      MINUS_UNSAFE='-~'
+      MULT_UNSAFE='*~'
+      DIV_UNSAFE='/~'
+      REMAINDER_UNSAFE='%~'
+      MODULO_UNSAFE='%%~'
+      LSHIFT='<<'
+      RSHIFT='>>'
+      LSHIFT_UNSAFE='<<~'
+      RSHIFT_UNSAFE='>>~'
+      EQUALITY='=='
+      NON_EQUALITY='!='
+      LT_OP='<'
+      LTE_OP='<='
+      GT_OP='>='
+      GTE_OP='>'
+      EQUALITY_UNSAFE='==~'
+      NON_EQUALITY_UNSAFE='!=~'
+      LT_UNSAFE='<~'
+      LTE_UNSAFE='<=~'
+      GT_UNSAFE='>=~'
+      GTE_UNSAFE='>~'
+      PARTIAL_OP='regexp:[~]'
+      CALL_OP='regexp:[.]'
+      HAT='^'
+      BANG='!'
+      PIPE_OP='|'
+      ISECT_OP='&'
+      THREE_DOTS='...'
+      CAP_ARROW='->'
+
+      // NUMBERS & STRING
+      TRUE='true'
+      FALSE='false'
+      NUMBER='regexp:\d+'
+      FLOAT='regexp:\d+(\.\d*)?(E|e\d+)?'
+      STRING="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
+
+      // IDENTIFIERS
+      WHITE_SPACE='regexp:\s+'
+      LINE_COMMENT='regexp:(//.*)'
+      BLOCK_COMMENT='regexp:(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)'
+      ID="regexp:(_|\p{Alpha})(_|'|\w)*"
+  ]
+}
+
+
+module ::= doc_string? use_* class_def*;
+
+use_ ::= (USE use_alias (STRING | use_ffi) use_cond);
+
+use_cond ::= (IF infix)?;
+
+use_alias ::= (ID ASSIGN)?;
+
+use_ffi ::= ffi_decl typeargs (LPAREN | LPAREN_NEW) params? RPAREN THROWS?;
+
+class_name ::= ID;
+
+class_type ::= (TYPE | INTERFACE | TRAIT | PRIMITIVE | STRUCT | CLASS | ACTOR );
+
+class_def ::= class_type annotations FFI_CHAR? cap? class_name typeparams? type_decl doc_string? members
+{
+    mixin="org.hedhman.pony.idea.completion.PonyNamedElementImpl"
+    implements="org.hedhman.pony.idea.completion.PonyNamedElement"
+    methods=[getClassDef getNameIdentifier setName]
+};
+
+type_decl ::= (IS type_)?;
+
+annotations ::= (BACKSLASH ID (COMMA ID)* BACKSLASH)?;
+
+members ::= field_decl* method_decl*;
+
+field_type ::= (VAR | LET | EMBED);
+
+field_name ::= ID;
+
+field_decl ::= field_type field_name TYPE_OP type_ (ASSIGN infix)? doc_string?
+{
+    mixin="org.hedhman.pony.idea.completion.PonyNamedElementImpl"
+    implements="org.hedhman.pony.idea.completion.PonyNamedElement"
+    methods=[getField getFieldDecl getNameIdentifier setName]
+};
+
+method_name ::= ID;
+
+method_type ::= (FUN | BE | NEW);
+
+method_body ::= rawseq;
+
+method_body_decl ::= ARROW method_body;
+
+method_decl ::= method_type annotations (cap | FFI_CHAR)? method_name typeparams? (LPAREN | LPAREN_NEW) params? RPAREN (TYPE_OP type_)? THROWS? doc_string? (method_body_decl)?
+{
+    mixin="org.hedhman.pony.idea.completion.PonyNamedElementImpl"
+    implements="org.hedhman.pony.idea.completion.PonyNamedElement"
+    methods=[getMethod getMethodDecl getNameIdentifier setName]
+};
+
+annotatedrawseq ::= annotations (exprseq | jump);
+
+rawseq ::= exprseq | jump;
+
+exprseq ::= assignment (semiexpr | nosemi)?;
+
+nextexprseq ::= nextassignment (semiexpr | nosemi)?;
+
+nosemi ::= nextexprseq | jump;
+
+semiexpr ::= LIST_OP (exprseq | jump);
+
+jump
+  ::= (RETURN | BREAK | CONTINUE | ERROR | COMPILE_INTRINSIC | COMPILE_ERROR) rawseq?
+  ;
+
+nextassignment ::= nextinfix (ASSIGN assignment)?;
+
+assignment ::= infix (ASSIGN assignment)?;
+
+nextinfix ::= nextterm (binop | isop | as_op)*;
+
+infix ::= term (binop | isop | as_op)*;
+
+as_op ::= AS type_;
+
+isop ::= (IS | ISNT) term;
+
+binop
+  ::= (AND | OR | XOR
+       | PLUS_OP | MINUS_OP | MULT_OP | DIV_OP | REMAINDER | MODULO
+       | PLUS_UNSAFE | MINUS_TILDE | MULT_UNSAFE | DIV_UNSAFE | REMAINDER_UNSAFE | MODULO_UNSAFE
+       | LSHIFT | RSHIFT | LSHIFT_UNSAFE | RSHIFT_UNSAFE
+       | EQUALITY | NON_EQUALITY | LT_OP | LTE_OP | GT_OP | GTE_OP
+       | EQUALITY_UNSAFE | NON_EQUALITY_UNSAFE | LT_UNSAFE | LTE_UNSAFE | GT_UNSAFE | GTE_UNSAFE) THROWS? term
+  ;
+
+nextterm ::=
+  if_term
+  | ifdef_term
+  | iftype_term
+  | match_term
+  | while_term
+  | repeat_term
+  | for_term
+  | with_term
+  | try_term
+  | recover_term
+  | consume_term
+  | nextpattern
+  | hash_term
+  ;
+
+term ::=
+  if_term
+  | ifdef_term
+  | iftype_term
+  | match_term
+  | while_term
+  | repeat_term
+  | for_term
+  | with_term
+  | try_term
+  | recover_term
+  | consume_term
+  | pattern
+  | hash_term
+  ;
+
+
+hash_term ::= HASH postfix;
+consume_term ::= CONSUME cap? term;
+recover_term ::= RECOVER annotations cap? rawseq END;
+try_term ::= TRY annotations rawseq (ELSE annotatedrawseq)? (THEN annotatedrawseq)? END;
+with_term ::= WITH annotations (withelem (COMMA withelem)*) DO rawseq (ELSE annotatedrawseq)? END;
+for_term ::= FOR annotations idseq IN rawseq DO rawseq (ELSE annotatedrawseq)? END;
+repeat_term ::= REPEAT annotations rawseq UNTIL annotatedrawseq (ELSE annotatedrawseq)? END;
+while_term ::= WHILE annotations rawseq DO rawseq (ELSE annotatedrawseq)? END;
+match_term ::= MATCH annotations rawseq caseexpr* (ELSE annotatedrawseq)? END;
+iftype_term ::= IFTYPE annotations iftype_ (elseiftype | (ELSE annotatedrawseq))? END;
+ifdef_term ::= IFDEF annotations infix THEN rawseq (elseifdef | (ELSE annotatedrawseq))? END;
+if_term ::= IF annotations rawseq THEN rawseq (elseif_ | (ELSE annotatedrawseq))? END;
+
+withelem ::= idseq ASSIGN rawseq;
+
+caseexpr
+  ::= PIPE_OP annotations pattern? (IF rawseq)? (ARROW rawseq)?
+  ;
+
+elseiftype
+  ::= ELSEIF annotations iftype_ (elseiftype | (ELSE annotatedrawseq))?
+  ;
+
+iftype_ ::= type_ TYPE_EQ type_ THEN rawseq;
+
+elseifdef
+  ::= ELSEIF annotations infix THEN rawseq (elseifdef | (ELSE annotatedrawseq))?
+  ;
+
+elseif_
+  ::= ELSEIF annotations rawseq THEN rawseq (elseif_ | (ELSE annotatedrawseq))?
+  ;
+
+idseq ::= ID | (LPAREN | LPAREN_NEW) idseq_in_seq (COMMA idseq_in_seq)* RPAREN
+  ;
+
+idseq_in_seq
+      ::= ID | (LPAREN | LPAREN_NEW) idseq_in_seq (COMMA idseq_in_seq)* RPAREN
+  ;
+
+nextpattern ::= (VAR | LET | EMBED) ID (TYPE_OP type_)? | nextparampattern;
+
+pattern ::= (VAR | LET | EMBED) ID (TYPE_OP type_)? | parampattern;
+
+nextparampattern
+  ::= (NOT | ADDRESSOF | MINUS_NEW | MINUS_TILDE_NEW | DIGESTOF) parampattern
+  | nextpostfix
+  ;
+
+parampattern
+  ::= (NOT | ADDRESSOF | MINUS_OP | MINUS_TILDE | MINUS_NEW | MINUS_TILDE_NEW | DIGESTOF) parampattern
+  | postfix
+  ;
+
+nextpostfix ::= nextatom (dot | tilde | chain | typeargs | call)*;
+
+postfix ::= atom (dot | tilde | chain | typeargs | call)*;
+
+call ::= LPAREN positional? named? RPAREN THROWS?;
+
+chain ::= CHAIN_OP ID;
+
+tilde ::= PARTIAL_OP ID;
+
+dot ::= CALL_OP ID;
+
+nextatom
+  ::= ID
+  | THIS
+  | literal
+  | next_tuple_decl
+  | LSQUARE_NEW (AS type_ TYPE_OP)? rawseq? RSQUARE
+  | object_decl
+  | lambda_decl
+  | ffi_decl
+  | LOC
+  ;
+
+atom
+  ::= ID
+  | THIS
+  | literal
+  | tuple_decl
+  | (LSQUARE | LSQUARE_NEW) (AS type_ TYPE_OP)? rawseq? RSQUARE
+  | object_decl
+  | lambda_decl
+  | ffi_decl typeargs? (LPAREN | LPAREN_NEW) positional? named? RPAREN THROWS?
+  | LOC
+  ;
+
+next_tuple_decl ::= LPAREN_NEW rawseq tuple? RPAREN;
+tuple_decl ::= (LPAREN | LPAREN_NEW) rawseq tuple? RPAREN;
+
+object_decl ::= OBJECT annotations cap? type_decl members END;
+
+lambda_decl ::=
+    LBRACE annotations cap? ID? typeparams? (LPAREN | LPAREN_NEW) lambdaparams? RPAREN lambdacaptures? (TYPE_OP type_)? THROWS? ARROW rawseq RBRACE cap?
+  | ATLBRACE annotations cap? ID? typeparams? (LPAREN | LPAREN_NEW) lambdaparams? RPAREN lambdacaptures? (TYPE_OP type_)? THROWS? ARROW rawseq RBRACE cap?
+  ;
+
+tuple ::= COMMA rawseq (COMMA rawseq)*;
+
+lambdacaptures ::= (LPAREN | LPAREN_NEW) (lambdacapture | THIS) (COMMA (lambdacapture | THIS))* RPAREN;
+
+lambdacapture
+  ::= ID (TYPE_OP type_)? (ASSIGN infix)?
+  ;
+
+lambdaparams
+  ::= lambdaparam (COMMA lambdaparam)*
+  ;
+
+lambdaparam
+  ::= ID (TYPE_OP type_)? (ASSIGN infix)?
+  ;
+
+positional
+  ::= rawseq (COMMA rawseq)*
+  ;
+
+named
+  ::= WHERE namedarg (COMMA namedarg)*
+  ;
+
+namedarg
+  ::= ID ASSIGN rawseq
+  ;
+
+type_
+  ::= atomtype (CAP_ARROW type_)?
+  ;
+
+atomtype
+  ::= THIS
+  | cap
+  | (LPAREN | LPAREN_NEW) infixtype tupletype? RPAREN
+  | nominal
+  | lambdatype
+  | barelambdatype
+  ;
+
+barelambdatype
+  ::= ATLBRACE cap? ID? typeparams? (LPAREN | LPAREN_NEW) (type_ (COMMA type_)*)? RPAREN (TYPE_OP type_)? THROWS? RBRACE (cap | gencap)? (HAT | BANG)?
+  ;
+
+lambdatype
+  ::= LBRACE cap? ID? typeparams? (LPAREN | LPAREN_NEW) (type_ (COMMA type_)*)? RPAREN (TYPE_OP type_)? THROWS? RBRACE (cap | gencap)? (HAT | BANG)?
+  ;
+
+tupletype
+  ::= COMMA infixtype (COMMA infixtype)*
+  ;
+
+infixtype
+  ::= type_ (uniontype | isecttype)*
+  ;
+
+isecttype
+  ::= ISECT_OP type_
+  ;
+
+uniontype
+  ::= PIPE_OP type_
+  ;
+
+nominal
+  ::= ID (CALL_OP ID)? typeargs? (cap | gencap)? (HAT | BANG)?
+  ;
+
+gencap
+  ::= HASH_READ
+  | HASH_SEND
+  | HASH_SHARE
+  | HASH_ALIAS
+  | HASH_ANY
+  ;
+
+cap
+  ::= ISO
+  | TRN
+  | REF
+  | VAL
+  | BOX
+  | TAG
+  ;
+
+typeargs
+  ::= LSQUARE typearg (COMMA typearg)* RSQUARE
+  ;
+
+typeparams
+  ::= (LSQUARE | LSQUARE_NEW) typeparam (COMMA typeparam)* RSQUARE
+  ;
+
+params
+  ::= (param | THREE_DOTS) (COMMA (param | THREE_DOTS))*
+  ;
+
+typeparam
+  ::= ID (TYPE_OP type_)? (ASSIGN typearg)?
+  ;
+
+typearg
+  ::= type_
+  | literal
+  | hash_term
+  ;
+
+literal
+  ::= TRUE
+  | FALSE
+  | NUMBER
+  | FLOAT
+  | STRING
+  ;
+
+param ::= ID TYPE_OP type_ (ASSIGN infix)?;
+
+ffi_decl ::= FFI_CHAR (ID | STRING) typeargs? (LPAREN | LPAREN_NEW) positional? named? RPAREN THROWS?;
+
+doc_string ::= STRING ;
