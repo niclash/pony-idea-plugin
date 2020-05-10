@@ -29,6 +29,7 @@ public class PonyMembersBlock extends AbstractBlock
     @Override
     protected List<Block> buildChildren()
     {
+        Alignment childrenAlignment = Alignment.createChildAlignment( getAlignment() );
         List<Block> blocks = new ArrayList<>();
         ASTNode child = myNode.getFirstChildNode();
         while( child != null )
@@ -38,15 +39,15 @@ public class PonyMembersBlock extends AbstractBlock
                 Block block;
                 if( child.getElementType() == PonyTypes.FIELD_DECL )
                 {
-                    block = new PonyFieldDeclBlock( child, getAlignment(), spacingBuilder );
+                    block = new PonyFieldDeclBlock( child, childrenAlignment, spacingBuilder );
                 }
                 else if( child.getElementType() == PonyTypes.METHOD_DECL )
                 {
-                    block = new PonyMethodDeclBlock( child, getAlignment(), spacingBuilder );
+                    block = new PonyMethodDeclBlock( child, childrenAlignment, spacingBuilder );
                 }
                 else // None...
                 {
-                    block = new PonyTokenBlock( child, getAlignment(), spacingBuilder );
+                    block = new PonyTokenBlock( child, childrenAlignment, spacingBuilder );
                 }
                 blocks.add( block );
             }
@@ -58,7 +59,7 @@ public class PonyMembersBlock extends AbstractBlock
     @Override
     public Indent getIndent()
     {
-        return Indent.getNormalIndent( true );
+        return Indent.getNormalIndent();
     }
 
     @Nullable

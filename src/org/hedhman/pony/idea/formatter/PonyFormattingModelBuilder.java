@@ -27,7 +27,7 @@ public class PonyFormattingModelBuilder
     public FormattingModel createModel( PsiElement element, CodeStyleSettings settings )
     {
         ASTNode rootNode = element.getNode();
-        PonyFileBlock fileBlock = new PonyFileBlock( rootNode, null, createSpacingBuilder( settings ) );
+        PonyFileBlock fileBlock = new PonyFileBlock( rootNode, Alignment.createAlignment(), createSpacingBuilder( settings ) );
         return createFormattingModelForPsiFile( element.getContainingFile(), fileBlock, settings );
     }
 

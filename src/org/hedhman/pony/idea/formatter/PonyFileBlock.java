@@ -30,6 +30,7 @@ public class PonyFileBlock extends AbstractBlock
     @Override
     protected List<Block> buildChildren()
     {
+        Alignment childrenAlignment = Alignment.createChildAlignment( getAlignment() );
         List<Block> blocks = new ArrayList<>();
         ASTNode child = myNode.getFirstChildNode();
         while( child != null )
@@ -40,20 +41,20 @@ public class PonyFileBlock extends AbstractBlock
                 if( child.getElementType() == PonyTypes.USE_ )
                 {
                     block = new PonyUseBlock( child,
-                                              getAlignment(),
+                                              childrenAlignment,
                                               spacingBuilder );
                 }
                 else if( child.getElementType() == PonyTypes.CLASS_DEF )
                 {
-                    block = new PonyClassDefBlock( child, getAlignment(), spacingBuilder );
+                    block = new PonyClassDefBlock( child, childrenAlignment, spacingBuilder );
                 }
                 else if( child.getElementType() == PonyTypes.DOC_STRING )
                 {
-                    block = new PonyDocStringBlock( child, getAlignment(), spacingBuilder );
+                    block = new PonyDocStringBlock( child, childrenAlignment, spacingBuilder );
                 }
-                else
+                else // nothing, hopefully
                 {
-                    block = new PonyTokenBlock( child, getAlignment(), spacingBuilder );
+                    block = new PonyTokenBlock( child, childrenAlignment, spacingBuilder );
                 }
                 blocks.add( block );
             }
