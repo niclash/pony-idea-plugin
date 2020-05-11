@@ -54,6 +54,10 @@ Road map and open questions at the moment;
     * uncertain of effort and possibilities, but since the ast is in the 
       editor, so we should be able to do this "right"
 
+1. Documentation lookup
+    * Since Pony defines the equivalent of "javadoc", support for "doc lookup"
+      (Ctrl-Q) should be fairly easy to implement.
+      
 That is my long-term vision, and I will hack on this when I have time. Other 
 Java devs with interested in creating a kick-ass IDE for Pony are welcome to
 join in.
