@@ -9,6 +9,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiWhiteSpace;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.tree.IElementType;
 import java.util.List;
@@ -27,13 +28,16 @@ public class PonyFormattingModelBuilder
     public FormattingModel createModel( PsiElement element, CodeStyleSettings settings )
     {
         ASTNode rootNode = element.getNode();
-        PonyFileBlock fileBlock = new PonyFileBlock( rootNode, Alignment.createAlignment(), createSpacingBuilder( settings ) );
-        return createFormattingModelForPsiFile( element.getContainingFile(), fileBlock, settings );
+        PonyModuleBlock rootBlock = new PonyModuleBlock( rootNode, createSpacingBuilder( settings ) );
+        return createFormattingModelForPsiFile( element.getContainingFile(), rootBlock, settings );
     }
 
     private static SpacingBuilder createSpacingBuilder( CodeStyleSettings settings )
     {
-        return new SpacingBuilder( settings, PonyLanguage.INSTANCE );
+        return new SpacingBuilder( settings, PonyLanguage.INSTANCE )
+            .around( PonyTypes.ID )
+            .spaceIf( settings.getCommonSettings( PonyLanguage.INSTANCE.getID() ).SPACE_AROUND_ASSIGNMENT_OPERATORS )
+            ;
     }
 
     @Nullable
@@ -43,8 +47,12 @@ public class PonyFormattingModelBuilder
         return null;
     }
 
-    static boolean handleCommentBlock( List<Block> blocks, ASTNode child, Alignment alignment, SpacingBuilder spacingBuilder )
+    static boolean handleCommentAndWhitespaceBlock( List<Block> blocks, ASTNode child, Alignment alignment, SpacingBuilder spacingBuilder )
     {
+        if( child instanceof PsiWhiteSpace )
+        {
+            return false;
+        }
         IElementType type = child.getElementType();
         if( type == PonyTypes.LINE_COMMENT || type == PonyTypes.BLOCK_COMMENT )
         {

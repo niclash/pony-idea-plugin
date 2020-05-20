@@ -3,51 +3,45 @@ package org.hedhman.pony.idea.formatter;
 import com.intellij.formatting.Alignment;
 import com.intellij.formatting.Block;
 import com.intellij.formatting.Indent;
-import com.intellij.formatting.Spacing;
 import com.intellij.formatting.SpacingBuilder;
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.formatter.common.AbstractBlock;
 import java.util.ArrayList;
 import java.util.List;
 import org.hedhman.pony.idea.generated.parsing.PonyTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static org.hedhman.pony.idea.formatter.PonyFormattingModelBuilder.handleCommentBlock;
+import static org.hedhman.pony.idea.formatter.PonyFormattingModelBuilder.handleCommentAndWhitespaceBlock;
 
-public class PonyMembersBlock extends AbstractBlock
+public class PonyMembersBlock extends AbstractPonyBlock
     implements Block
 {
-    private final SpacingBuilder spacingBuilder;
-
     public PonyMembersBlock( @NotNull ASTNode node, @Nullable Alignment alignment, SpacingBuilder spacingBuilder )
     {
-        super( node, null, alignment );
-        this.spacingBuilder = spacingBuilder;
+        super( node, null, Alignments.member, spacingBuilder );
     }
 
     @Override
     protected List<Block> buildChildren()
     {
-        Alignment childrenAlignment = Alignment.createChildAlignment( getAlignment() );
         List<Block> blocks = new ArrayList<>();
         ASTNode child = myNode.getFirstChildNode();
         while( child != null )
         {
-            if( handleCommentBlock( blocks, child, getAlignment(), spacingBuilder ) )
+            if( handleCommentAndWhitespaceBlock( blocks, child, getAlignment(), spacingBuilder ) )
             {
                 Block block;
                 if( child.getElementType() == PonyTypes.FIELD_DECL )
                 {
-                    block = new PonyFieldDeclBlock( child, childrenAlignment, spacingBuilder );
+                    block = new PonyFieldDeclBlock( child, null, spacingBuilder );
                 }
                 else if( child.getElementType() == PonyTypes.METHOD_DECL )
                 {
-                    block = new PonyMethodDeclBlock( child, childrenAlignment, spacingBuilder );
+                    block = new PonyMethodDeclBlock( child, null, spacingBuilder );
                 }
                 else // None...
                 {
-                    block = new PonyTokenBlock( child, childrenAlignment, spacingBuilder );
+                    block = new PonyTokenBlock( child, null, spacingBuilder );
                 }
                 blocks.add( block );
             }
@@ -59,19 +53,10 @@ public class PonyMembersBlock extends AbstractBlock
     @Override
     public Indent getIndent()
     {
+        if( isNotIndentable() )
+        {
+            return null;
+        }
         return Indent.getNormalIndent();
-    }
-
-    @Nullable
-    @Override
-    public Spacing getSpacing( @Nullable Block child1, @NotNull Block child2 )
-    {
-        return null;
-    }
-
-    @Override
-    public boolean isLeaf()
-    {
-        return myNode.getFirstChildNode() == null;
     }
 }

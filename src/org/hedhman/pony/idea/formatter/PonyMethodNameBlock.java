@@ -2,27 +2,20 @@ package org.hedhman.pony.idea.formatter;
 
 import com.intellij.formatting.Alignment;
 import com.intellij.formatting.Block;
-import com.intellij.formatting.Indent;
-import com.intellij.formatting.Spacing;
 import com.intellij.formatting.SpacingBuilder;
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.formatter.common.AbstractBlock;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static org.hedhman.pony.idea.formatter.PonyFormattingModelBuilder.handleCommentBlock;
+import static org.hedhman.pony.idea.formatter.PonyFormattingModelBuilder.handleCommentAndWhitespaceBlock;
 
-public class PonyMethodNameBlock extends AbstractBlock
+public class PonyMethodNameBlock extends AbstractPonyBlock
 {
-    private final SpacingBuilder spacingBuilder;
-
     protected PonyMethodNameBlock( @NotNull ASTNode node, @Nullable Alignment alignment, SpacingBuilder spacingBuilder )
     {
-        super( node, null, alignment );
-        this.spacingBuilder = spacingBuilder;
+        super( node, null, alignment, spacingBuilder );
     }
 
     @Override
@@ -32,7 +25,7 @@ public class PonyMethodNameBlock extends AbstractBlock
         ASTNode child = myNode.getFirstChildNode();
         while( child != null )
         {
-            if( handleCommentBlock( blocks, child, getAlignment(), spacingBuilder ) )
+            if( handleCommentAndWhitespaceBlock( blocks, child, getAlignment(), spacingBuilder ) )
             {
                 Block block = new PonyTokenBlock( child, getAlignment(), spacingBuilder );
                 blocks.add( block );
@@ -40,24 +33,5 @@ public class PonyMethodNameBlock extends AbstractBlock
             child = child.getTreeNext();
         }
         return blocks;
-    }
-
-    @Override
-    public Indent getIndent()
-    {
-        return Indent.getNormalIndent(true);
-    }
-
-    @Nullable
-    @Override
-    public Spacing getSpacing( @Nullable Block child1, @NotNull Block child2 )
-    {
-        return null;
-    }
-
-    @Override
-    public boolean isLeaf()
-    {
-        return myNode.getFirstChildNode() == null;
     }
 }

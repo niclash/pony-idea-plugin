@@ -2,28 +2,24 @@ package org.hedhman.pony.idea.formatter;
 
 import com.intellij.formatting.Alignment;
 import com.intellij.formatting.Block;
-import com.intellij.formatting.Indent;
-import com.intellij.formatting.Spacing;
 import com.intellij.formatting.SpacingBuilder;
+import com.intellij.formatting.Wrap;
+import com.intellij.formatting.WrapType;
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.formatter.common.AbstractBlock;
 import java.util.ArrayList;
 import java.util.List;
 import org.hedhman.pony.idea.generated.parsing.PonyTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static org.hedhman.pony.idea.formatter.PonyFormattingModelBuilder.handleCommentBlock;
+import static org.hedhman.pony.idea.formatter.PonyFormattingModelBuilder.handleCommentAndWhitespaceBlock;
 
-public class PonyFieldDeclBlock extends AbstractBlock
+public class PonyFieldDeclBlock extends AbstractPonyBlock
 {
-    private final SpacingBuilder spacingBuilder;
-
     protected PonyFieldDeclBlock( @NotNull ASTNode node, @Nullable Alignment alignment,
                                   SpacingBuilder spacingBuilder )
     {
-        super( node, null, alignment );
-        this.spacingBuilder = spacingBuilder;
+        super( node, Wrap.createWrap( WrapType.CHOP_DOWN_IF_LONG, true ), Alignments.member, spacingBuilder );
     }
 
     @Override
@@ -33,7 +29,7 @@ public class PonyFieldDeclBlock extends AbstractBlock
         ASTNode child = myNode.getFirstChildNode();
         while( child != null )
         {
-            if( handleCommentBlock( blocks, child, getAlignment(), spacingBuilder ) )
+            if( handleCommentAndWhitespaceBlock( blocks, child, getAlignment(), spacingBuilder ) )
             {
                 Block block;
                 if( child.getElementType() == PonyTypes.FIELD_TYPE )
@@ -65,24 +61,5 @@ public class PonyFieldDeclBlock extends AbstractBlock
             child = child.getTreeNext();
         }
         return blocks;
-    }
-
-    @Override
-    public Indent getIndent()
-    {
-        return Indent.getNormalIndent( true );
-    }
-
-    @Nullable
-    @Override
-    public Spacing getSpacing( @Nullable Block child1, @NotNull Block child2 )
-    {
-        return null;
-    }
-
-    @Override
-    public boolean isLeaf()
-    {
-        return myNode.getFirstChildNode() == null;
     }
 }
