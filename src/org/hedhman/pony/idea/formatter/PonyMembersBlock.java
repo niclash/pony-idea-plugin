@@ -49,14 +49,4 @@ public class PonyMembersBlock extends AbstractPonyBlock
         }
         return blocks;
     }
-
-    @Override
-    public Indent getIndent()
-    {
-        if( isNotIndentable() )
-        {
-            return null;
-        }
-        return Indent.getNormalIndent();
-    }
 }

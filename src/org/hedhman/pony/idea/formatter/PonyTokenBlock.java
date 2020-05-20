@@ -33,14 +33,4 @@ public class PonyTokenBlock extends AbstractPonyBlock
         }
         return Collections.emptyList();
     }
-
-    @Override
-    public Indent getIndent()
-    {
-        if( isNotIndentable() )
-        {
-            return null;
-        }
-        return Indent.getNoneIndent();
-    }
 }

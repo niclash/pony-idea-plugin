@@ -2,6 +2,7 @@ package org.hedhman.pony.idea.formatter;
 
 import com.intellij.formatting.Alignment;
 import com.intellij.formatting.Block;
+import com.intellij.formatting.Indent;
 import com.intellij.formatting.SpacingBuilder;
 import com.intellij.formatting.Wrap;
 import com.intellij.formatting.WrapType;
@@ -61,5 +62,15 @@ public class PonyFieldDeclBlock extends AbstractPonyBlock
             child = child.getTreeNext();
         }
         return blocks;
+    }
+
+    @Override
+    public Indent getIndent()
+    {
+        if( isNotIndentable() )
+        {
+            return null;
+        }
+        return Indent.getIndent( Indent.Type.NORMAL, true, false );
     }
 }
