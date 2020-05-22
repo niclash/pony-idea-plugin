@@ -13,6 +13,7 @@ import java.util.List;
 import org.hedhman.pony.idea.PonyFile;
 import org.hedhman.pony.idea.PonyFileType;
 import org.hedhman.pony.idea.generated.psi.PonyClassDef;
+import org.hedhman.pony.idea.generated.psi.PonyMethodDecl;
 
 public class PonyUtils
 {
@@ -60,6 +61,12 @@ public class PonyUtils
                 }
             }
         }
+        return result;
+    }
+
+    public static List<PonyMethodDecl> findMethodDecls( Project project, String key )
+    {
+        List<PonyMethodDecl> result = new ArrayList<>();
         return result;
     }
 }

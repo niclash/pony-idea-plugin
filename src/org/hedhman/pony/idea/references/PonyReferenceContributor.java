@@ -9,48 +9,30 @@ import com.intellij.psi.PsiReferenceProvider;
 import com.intellij.psi.PsiReferenceRegistrar;
 import com.intellij.util.ProcessingContext;
 import org.hedhman.pony.idea.generated.psi.PonyClassDef;
+import org.hedhman.pony.idea.generated.psi.PonyDot;
 import org.hedhman.pony.idea.generated.psi.PonyFieldDecl;
 import org.hedhman.pony.idea.generated.psi.PonyMethodDecl;
 import org.jetbrains.annotations.NotNull;
 
 public class PonyReferenceContributor extends PsiReferenceContributor
 {
+    public PonyReferenceContributor()
+    {
+        System.out.println("Created: " + getClass().getSimpleName());
+    }
+
     @Override
     public void registerReferenceProviders( @NotNull PsiReferenceRegistrar registrar )
     {
-        registrar.registerReferenceProvider( PlatformPatterns.psiElement( PonyClassDef.class ), new PsiReferenceProvider()
+        registrar.registerReferenceProvider( PlatformPatterns.psiElement( PonyDot.class ), new PsiReferenceProvider()
         {
             @NotNull
             @Override
             public PsiReference[] getReferencesByElement( @NotNull PsiElement element,
                                                           @NotNull ProcessingContext context )
             {
-                PonyClassDef classDef = (PonyClassDef) element;
-                TextRange range = classDef.getClassName().getTextRangeInParent();
-                return new PsiReference[]{ new PonyReference( element, range ) };
-            }
-        } );
-        registrar.registerReferenceProvider( PlatformPatterns.psiElement( PonyMethodDecl.class ), new PsiReferenceProvider()
-        {
-            @NotNull
-            @Override
-            public PsiReference[] getReferencesByElement( @NotNull PsiElement element,
-                                                          @NotNull ProcessingContext context )
-            {
-                PonyMethodDecl method = (PonyMethodDecl) element;
-                TextRange range = method.getMethodName().getTextRangeInParent();
-                return new PsiReference[]{ new PonyReference( element, range ) };
-            }
-        } );
-        registrar.registerReferenceProvider( PlatformPatterns.psiElement( PonyFieldDecl.class ), new PsiReferenceProvider()
-        {
-            @NotNull
-            @Override
-            public PsiReference[] getReferencesByElement( @NotNull PsiElement element,
-                                                          @NotNull ProcessingContext context )
-            {
-                PonyFieldDecl field = (PonyFieldDecl) element;
-                TextRange range = field.getFieldName().getTextRangeInParent();
+                PonyDot dotRef = (PonyDot) element;
+                TextRange range = dotRef.getTextRangeInParent();
                 return new PsiReference[]{ new PonyReference( element, range ) };
             }
         } );

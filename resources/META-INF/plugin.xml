@@ -17,16 +17,15 @@
               fieldName="PonySource" language="Pony" extensions="pony"/>
     <lang.parserDefinition language="Pony"
                            implementationClass="org.hedhman.pony.idea.parsing.PonyParserDefinition"/>
-    <lang.syntaxHighlighterFactory language="Pony"
-                                   implementationClass="org.hedhman.pony.idea.highlighting.PonyHighlighterFactory"/>
-    <colorSettingsPage implementation="org.hedhman.pony.idea.highlighting.PonyColorSettingsPage"/>
-    <psi.referenceContributor language="Pony"
-                              implementation="org.hedhman.pony.idea.references.PonyReferenceContributor"/>
-    <lang.refactoringSupport language="Pony"
-                             implementationClass="org.hedhman.pony.idea.refactoring.PonyRefactoringSupportProvider"/>
-    <completion.contributor language="Pony"
-                            implementationClass="org.hedhman.pony.idea.completion.PonyCompletionContributor"/>
     <lang.formatter language="Pony" implementationClass="org.hedhman.pony.idea.formatter.PonyFormattingModelBuilder"/>
+    <psi.referenceContributor implementation="org.hedhman.pony.idea.references.PonyReferenceContributor"/>
+    <completion.contributor implementationClass="org.hedhman.pony.idea.completion.PonyCompletionContributor"/>
+    <lang.refactoringSupport language="Pony"
+                             implementationClass="org.hedhman.pony.idea.references.PonyRefactoringSupportProvider"/>
+    <colorSettingsPage implementation="org.hedhman.pony.idea.highlighting.PonyColorSettingsPage"/>
+    <lang.syntaxHighlighterFactory implementationClass="org.hedhman.pony.idea.highlighting.PonyHighlighterFactory"/>
+    <lang.findUsagesProvider language="Pony" implementationClass="org.hedhman.pony.idea.usages.PonyFindUsagesProvider"/>
+    <lang.foldingBuilder language="Pony" implementationClass="org.hedhman.pony.idea.folding.PonyFoldingBuilder"/>
   </extensions>
 
   <actions>

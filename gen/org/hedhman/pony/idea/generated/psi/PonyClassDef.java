@@ -4,7 +4,7 @@ package org.hedhman.pony.idea.generated.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import org.hedhman.pony.idea.completion.PonyNamedElement;
+import org.hedhman.pony.idea.references.PonyNamedElement;
 
 public interface PonyClassDef extends PonyNamedElement {
 

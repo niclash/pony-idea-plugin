@@ -15,10 +15,11 @@ import org.jetbrains.annotations.NotNull;
 // TODO: Not triggered now, so come back when I figure out how to trigger completion. Probably related to resolver not working.
 public class PonyCompletionContributor extends CompletionContributor
 {
+
     public PonyCompletionContributor()
     {
         extend( CompletionType.BASIC,
-                PlatformPatterns.psiElement( PonyTypes.CLASS_DEF ).withLanguage( PonyLanguage.INSTANCE ),
+                PlatformPatterns.psiElement( PonyTypes.DOT ).withLanguage( PonyLanguage.INSTANCE ),
                 new CompletionProvider<CompletionParameters>()
                 {
                     public void addCompletions( @NotNull CompletionParameters parameters,

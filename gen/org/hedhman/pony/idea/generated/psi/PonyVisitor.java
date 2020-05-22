@@ -4,7 +4,7 @@ package org.hedhman.pony.idea.generated.psi;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiElement;
-import org.hedhman.pony.idea.completion.PonyNamedElement;
+import org.hedhman.pony.idea.references.PonyNamedElement;
 
 public class PonyVisitor extends PsiElementVisitor {
 

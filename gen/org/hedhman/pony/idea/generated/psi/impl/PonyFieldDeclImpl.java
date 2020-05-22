@@ -8,9 +8,9 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static org.hedhman.pony.idea.generated.parsing.PonyTypes.*;
-import org.hedhman.pony.idea.completion.PonyNamedElementImpl;
+import org.hedhman.pony.idea.references.PonyNamedElementImpl;
 import org.hedhman.pony.idea.generated.psi.*;
-import org.hedhman.pony.idea.util.PonyPsiImplUtil;
+import org.hedhman.pony.idea.references.PonyPsiImplUtil;
 
 public class PonyFieldDeclImpl extends PonyNamedElementImpl implements PonyFieldDecl {
 

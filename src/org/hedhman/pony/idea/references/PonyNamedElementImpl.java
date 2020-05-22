@@ -1,4 +1,4 @@
-package org.hedhman.pony.idea.completion;
+package org.hedhman.pony.idea.references;
 
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.intellij.lang.ASTNode;

@@ -7,7 +7,7 @@
   extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
   elementTypeHolderClass="org.hedhman.pony.idea.generated.parsing.PonyTypes"
   parserUtilClass="com.intellij.lang.parser.GeneratedParserUtilBase"
-  psiImplUtilClass="org.hedhman.pony.idea.util.PonyPsiImplUtil"
+  psiImplUtilClass="org.hedhman.pony.idea.references.PonyPsiImplUtil"
 
   psiClassPrefix="Pony"
   psiImplClassSuffix="Impl"
@@ -178,8 +178,8 @@ class_type ::= (TYPE | INTERFACE | TRAIT | PRIMITIVE | STRUCT | CLASS | ACTOR );
 
 class_def ::= class_type annotations FFI_CHAR? cap? class_name typeparams? type_decl doc_string? members
 {
-    mixin="org.hedhman.pony.idea.completion.PonyNamedElementImpl"
-    implements="org.hedhman.pony.idea.completion.PonyNamedElement"
+    mixin="org.hedhman.pony.idea.references.PonyNamedElementImpl"
+    implements="org.hedhman.pony.idea.references.PonyNamedElement"
     methods=[getClassDef getNameIdentifier setName]
 };
 
@@ -195,8 +195,8 @@ field_name ::= ID;
 
 field_decl ::= field_type field_name TYPE_OP type_ (ASSIGN infix)? doc_string?
 {
-    mixin="org.hedhman.pony.idea.completion.PonyNamedElementImpl"
-    implements="org.hedhman.pony.idea.completion.PonyNamedElement"
+    mixin="org.hedhman.pony.idea.references.PonyNamedElementImpl"
+    implements="org.hedhman.pony.idea.references.PonyNamedElement"
     methods=[getField getFieldDecl getNameIdentifier setName]
 };
 
@@ -210,8 +210,8 @@ method_body_decl ::= ARROW method_body;
 
 method_decl ::= method_type annotations (cap | FFI_CHAR)? method_name typeparams? (LPAREN | LPAREN_NEW) params? RPAREN (TYPE_OP type_)? THROWS? doc_string? (method_body_decl)?
 {
-    mixin="org.hedhman.pony.idea.completion.PonyNamedElementImpl"
-    implements="org.hedhman.pony.idea.completion.PonyNamedElement"
+    mixin="org.hedhman.pony.idea.references.PonyNamedElementImpl"
+    implements="org.hedhman.pony.idea.references.PonyNamedElement"
     methods=[getMethod getMethodDecl getNameIdentifier setName]
 };
 

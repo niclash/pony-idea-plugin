@@ -1,4 +1,4 @@
-package org.hedhman.pony.idea.util;
+package org.hedhman.pony.idea.references;
 
 import com.intellij.formatting.Block;
 import com.intellij.lang.ASTNode;
