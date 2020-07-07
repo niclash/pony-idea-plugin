@@ -38,9 +38,9 @@ public class PonyPostFixBlock extends AbstractPonyBlock
                 {
                     block = new PonyAtomBlock( child, getAlignment(), spacingBuilder );
                 }
-                else if( child.getElementType() == PonyTypes.DOT )
+                else if( child.getElementType() == PonyTypes.CALLSITE )
                 {
-                    block = new PonyDotBlock( child, getAlignment(), spacingBuilder );
+                    block = new PonyCallsiteBlock( child, getAlignment(), spacingBuilder );
                 }
                 else if( child.getElementType() == PonyTypes.TILDE )
                 {

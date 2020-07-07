@@ -35,14 +35,14 @@ public class PonyNextpostfixImpl extends ASTWrapperPsiElement implements PonyNex
 
   @Override
   @NotNull
-  public List<PonyChain> getChainList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, PonyChain.class);
+  public List<PonyCallsite> getCallsiteList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, PonyCallsite.class);
   }
 
   @Override
   @NotNull
-  public List<PonyDot> getDotList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, PonyDot.class);
+  public List<PonyChain> getChainList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, PonyChain.class);
   }
 
   @Override

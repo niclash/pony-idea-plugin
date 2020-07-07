@@ -8,10 +8,8 @@ import com.intellij.psi.PsiReferenceContributor;
 import com.intellij.psi.PsiReferenceProvider;
 import com.intellij.psi.PsiReferenceRegistrar;
 import com.intellij.util.ProcessingContext;
-import org.hedhman.pony.idea.generated.psi.PonyClassDef;
-import org.hedhman.pony.idea.generated.psi.PonyDot;
-import org.hedhman.pony.idea.generated.psi.PonyFieldDecl;
-import org.hedhman.pony.idea.generated.psi.PonyMethodDecl;
+import org.hedhman.pony.idea.generated.parsing.PonyTypes;
+import org.hedhman.pony.idea.generated.psi.PonyCallsite;
 import org.jetbrains.annotations.NotNull;
 
 public class PonyReferenceContributor extends PsiReferenceContributor
@@ -24,15 +22,15 @@ public class PonyReferenceContributor extends PsiReferenceContributor
     @Override
     public void registerReferenceProviders( @NotNull PsiReferenceRegistrar registrar )
     {
-        registrar.registerReferenceProvider( PlatformPatterns.psiElement( PonyDot.class ), new PsiReferenceProvider()
+        registrar.registerReferenceProvider( PlatformPatterns.psiElement( PonyTypes.CALLSITE ), new PsiReferenceProvider()
         {
             @NotNull
             @Override
             public PsiReference[] getReferencesByElement( @NotNull PsiElement element,
                                                           @NotNull ProcessingContext context )
             {
-                PonyDot dotRef = (PonyDot) element;
-                TextRange range = dotRef.getTextRangeInParent();
+                PonyCallsite callsite = (PonyCallsite) element;
+                TextRange range = callsite.getTextRangeInParent();
                 return new PsiReference[]{ new PonyReference( element, range ) };
             }
         } );

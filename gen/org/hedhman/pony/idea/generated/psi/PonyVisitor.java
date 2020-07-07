@@ -44,6 +44,10 @@ public class PonyVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitCallsite(@NotNull PonyCallsite o) {
+    visitPsiElement(o);
+  }
+
   public void visitCap(@NotNull PonyCap o) {
     visitPsiElement(o);
   }
@@ -73,10 +77,6 @@ public class PonyVisitor extends PsiElementVisitor {
   }
 
   public void visitDocString(@NotNull PonyDocString o) {
-    visitPsiElement(o);
-  }
-
-  public void visitDot(@NotNull PonyDot o) {
     visitPsiElement(o);
   }
 

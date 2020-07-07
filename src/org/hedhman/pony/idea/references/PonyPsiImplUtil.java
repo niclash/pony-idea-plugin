@@ -1,14 +1,16 @@
 package org.hedhman.pony.idea.references;
 
-import com.intellij.formatting.Block;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.DefaultASTFactoryImpl;
-import com.intellij.openapi.util.Key;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiReference;
 import org.hedhman.pony.idea.generated.parsing.PonyTypes;
+import org.hedhman.pony.idea.generated.psi.PonyAtom;
+import org.hedhman.pony.idea.generated.psi.PonyCallsite;
 import org.hedhman.pony.idea.generated.psi.PonyClassDef;
 import org.hedhman.pony.idea.generated.psi.PonyFieldDecl;
 import org.hedhman.pony.idea.generated.psi.PonyMethodDecl;
+import org.hedhman.pony.idea.generated.psi.PonyNextatom;
 
 // TODO: What is this really for? The default implementations work just without it.
 public class PonyPsiImplUtil
@@ -165,5 +167,19 @@ public class PonyPsiImplUtil
         {
             return null;
         }
+    }
+
+    public static PsiReference getReference( PonyCallsite callsite )
+    {
+        PsiElement parent = callsite.getParent();
+        if( parent instanceof PonyNextatom )
+        {
+            PonyNextatom atom = (PonyNextatom) parent;
+        }
+        if( parent instanceof PonyAtom )
+        {
+            PonyAtom atom = (PonyAtom) parent;
+        }
+        return null;
     }
 }

@@ -11,10 +11,10 @@ import org.jetbrains.annotations.Nullable;
 
 import static org.hedhman.pony.idea.formatter.PonyFormattingModelBuilder.handleCommentAndWhitespaceBlock;
 
-public class PonyDotBlock extends AbstractPonyBlock
+public class PonyCallsiteBlock extends AbstractPonyBlock
     implements Block
 {
-    public PonyDotBlock( @NotNull ASTNode node, @Nullable Alignment alignment, SpacingBuilder spacingBuilder )
+    public PonyCallsiteBlock( @NotNull ASTNode node, @Nullable Alignment alignment, SpacingBuilder spacingBuilder )
     {
         super( node, null, alignment, spacingBuilder );
     }

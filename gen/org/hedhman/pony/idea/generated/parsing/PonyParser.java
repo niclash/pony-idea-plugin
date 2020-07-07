@@ -576,6 +576,18 @@ public class PonyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // CALL_OP ID
+  public static boolean callsite(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "callsite")) return false;
+    if (!nextTokenIs(b, CALL_OP)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, CALL_OP, ID);
+    exit_section_(b, m, CALLSITE, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // ISO
   //   | TRN
   //   | REF
@@ -773,18 +785,6 @@ public class PonyParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeToken(b, STRING);
     exit_section_(b, m, DOC_STRING, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // CALL_OP ID
-  public static boolean dot(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dot")) return false;
-    if (!nextTokenIs(b, CALL_OP)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, CALL_OP, ID);
-    exit_section_(b, m, DOT, r);
     return r;
   }
 
@@ -2731,7 +2731,7 @@ public class PonyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // nextatom (dot | tilde | chain | typeargs | call)*
+  // nextatom (callsite | tilde | chain | typeargs | call)*
   public static boolean nextpostfix(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "nextpostfix")) return false;
     boolean r;
@@ -2742,7 +2742,7 @@ public class PonyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (dot | tilde | chain | typeargs | call)*
+  // (callsite | tilde | chain | typeargs | call)*
   private static boolean nextpostfix_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "nextpostfix_1")) return false;
     while (true) {
@@ -2753,11 +2753,11 @@ public class PonyParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // dot | tilde | chain | typeargs | call
+  // callsite | tilde | chain | typeargs | call
   private static boolean nextpostfix_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "nextpostfix_1_0")) return false;
     boolean r;
-    r = dot(b, l + 1);
+    r = callsite(b, l + 1);
     if (!r) r = tilde(b, l + 1);
     if (!r) r = chain(b, l + 1);
     if (!r) r = typeargs(b, l + 1);
@@ -3118,7 +3118,7 @@ public class PonyParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // atom (dot | tilde | chain | typeargs | call)*
+  // atom (callsite | tilde | chain | typeargs | call)*
   public static boolean postfix(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "postfix")) return false;
     boolean r;
@@ -3129,7 +3129,7 @@ public class PonyParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (dot | tilde | chain | typeargs | call)*
+  // (callsite | tilde | chain | typeargs | call)*
   private static boolean postfix_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "postfix_1")) return false;
     while (true) {
@@ -3140,11 +3140,11 @@ public class PonyParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // dot | tilde | chain | typeargs | call
+  // callsite | tilde | chain | typeargs | call
   private static boolean postfix_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "postfix_1_0")) return false;
     boolean r;
-    r = dot(b, l + 1);
+    r = callsite(b, l + 1);
     if (!r) r = tilde(b, l + 1);
     if (!r) r = chain(b, l + 1);
     if (!r) r = typeargs(b, l + 1);

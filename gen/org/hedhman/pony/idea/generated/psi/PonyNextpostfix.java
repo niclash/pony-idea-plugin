@@ -11,10 +11,10 @@ public interface PonyNextpostfix extends PsiElement {
   List<PonyCall> getCallList();
 
   @NotNull
-  List<PonyChain> getChainList();
+  List<PonyCallsite> getCallsiteList();
 
   @NotNull
-  List<PonyDot> getDotList();
+  List<PonyChain> getChainList();
 
   @NotNull
   PonyNextatom getNextatom();

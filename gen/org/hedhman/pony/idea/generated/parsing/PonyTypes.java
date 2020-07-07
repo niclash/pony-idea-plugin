@@ -19,6 +19,7 @@ public interface PonyTypes {
   IElementType BARELAMBDATYPE = new PonyElementType("BARELAMBDATYPE");
   IElementType BINOP = new PonyElementType("BINOP");
   IElementType CALL = new PonyElementType("CALL");
+  IElementType CALLSITE = new PonyElementType("CALLSITE");
   IElementType CAP = new PonyElementType("CAP");
   IElementType CASEEXPR = new PonyElementType("CASEEXPR");
   IElementType CHAIN = new PonyElementType("CHAIN");
@@ -27,7 +28,6 @@ public interface PonyTypes {
   IElementType CLASS_TYPE = new PonyElementType("CLASS_TYPE");
   IElementType CONSUME_TERM = new PonyElementType("CONSUME_TERM");
   IElementType DOC_STRING = new PonyElementType("DOC_STRING");
-  IElementType DOT = new PonyElementType("DOT");
   IElementType ELSEIFDEF = new PonyElementType("ELSEIFDEF");
   IElementType ELSEIFTYPE = new PonyElementType("ELSEIFTYPE");
   IElementType ELSEIF_ = new PonyElementType("ELSEIF_");
@@ -268,6 +268,9 @@ public interface PonyTypes {
       else if (type == CALL) {
         return new PonyCallImpl(node);
       }
+      else if (type == CALLSITE) {
+        return new PonyCallsiteImpl(node);
+      }
       else if (type == CAP) {
         return new PonyCapImpl(node);
       }
@@ -291,9 +294,6 @@ public interface PonyTypes {
       }
       else if (type == DOC_STRING) {
         return new PonyDocStringImpl(node);
-      }
-      else if (type == DOT) {
-        return new PonyDotImpl(node);
       }
       else if (type == ELSEIFDEF) {
         return new PonyElseifdefImpl(node);

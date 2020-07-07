@@ -19,7 +19,7 @@ public class PonyCompletionContributor extends CompletionContributor
     public PonyCompletionContributor()
     {
         extend( CompletionType.BASIC,
-                PlatformPatterns.psiElement( PonyTypes.DOT ).withLanguage( PonyLanguage.INSTANCE ),
+                PlatformPatterns.psiElement( PonyTypes.CALLSITE ).withLanguage( PonyLanguage.INSTANCE ),
                 new CompletionProvider<CompletionParameters>()
                 {
                     public void addCompletions( @NotNull CompletionParameters parameters,

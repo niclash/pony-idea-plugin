@@ -339,9 +339,9 @@ parampattern
   | postfix
   ;
 
-nextpostfix ::= nextatom (dot | tilde | chain | typeargs | call)*;
+nextpostfix ::= nextatom (callsite | tilde | chain | typeargs | call)*;
 
-postfix ::= atom (dot | tilde | chain | typeargs | call)*;
+postfix ::= atom (callsite | tilde | chain | typeargs | call)*;
 
 call ::= LPAREN positional? named? RPAREN THROWS?;
 
@@ -349,7 +349,11 @@ chain ::= CHAIN_OP ID;
 
 tilde ::= PARTIAL_OP ID;
 
-dot ::= CALL_OP ID;
+callsite ::= CALL_OP ID
+{
+    methods=[getReferences]
+};
+
 
 nextatom
   ::= ID

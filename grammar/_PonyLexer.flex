@@ -47,7 +47,6 @@ ID=(_|[:letter:])(_|'|[a-zA-Z_0-9])*
 
 %%
 <YYINITIAL> {
-
   "?"                      { return THROWS; }
   "this"                   { return THIS; }
   "fun"                    { return FUN; }

@@ -12,14 +12,14 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import org.hedhman.pony.idea.generated.psi.*;
 import org.hedhman.pony.idea.references.PonyPsiImplUtil;
 
-public class PonyDotImpl extends ASTWrapperPsiElement implements PonyDot {
+public class PonyCallsiteImpl extends ASTWrapperPsiElement implements PonyCallsite {
 
-  public PonyDotImpl(@NotNull ASTNode node) {
+  public PonyCallsiteImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull PonyVisitor visitor) {
-    visitor.visitDot(this);
+    visitor.visitCallsite(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {

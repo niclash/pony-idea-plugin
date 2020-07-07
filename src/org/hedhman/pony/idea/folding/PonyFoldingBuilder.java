@@ -46,10 +46,13 @@ public class PonyFoldingBuilder extends FoldingBuilderEx
         Collection<PonyClassDef> classDefs = PsiTreeUtil.findChildrenOfType( root, PonyClassDef.class );
         for( final PonyClassDef decl : classDefs )
         {
-            TextRange textRange = decl.getTextRange();
             String classname = decl.getClassName().getId().getText();
-            FoldingGroup methodGroup = FoldingGroup.newGroup( FOLDING_CLASS + classname );
-            descriptors.add( new FoldingDescriptor( decl.getNode(), textRange, methodGroup ) );
+            FoldingGroup group = FoldingGroup.newGroup( FOLDING_CLASS + classname );
+            Collection<PonyMethodDecl> methodDecls = PsiTreeUtil.findChildrenOfType( root, PonyMethodDecl.class );
+            for( final PonyMethodDecl m : methodDecls )
+            {
+                descriptors.add( new FoldingDescriptor( decl.getNode(), m.getTextRange(), group ) );
+            }
         }
     }
 
